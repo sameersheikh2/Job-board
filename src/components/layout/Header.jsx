@@ -1,15 +1,22 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import MobileMenu from "./MobileMenu.jsx";
+import { InteractiveHoverButton } from "../../../components/ui/interactive-hover-button.jsx";
 
 const navItems = [
-  { label: "Home", to: "/" },
-  { label: "Jobs", to: "#" },
-  { label: "For Recruiters", to: "#" },
+  { label: "Jobs", to: "/jobs" },
+  { label: "For Recruiters", to: "/recruiters" },
   { label: "About", to: "/about" },
 ];
 
+const linkClass = (active) =>
+  `relative cursor-pointer transition hover:text-[#1f2933] ${
+    active ? "text-[#1f2933]" : "text-slate-700"
+  } after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:scale-x-0 after:bg-[#1f2933] after:transition after:duration-200 hover:after:scale-x-100`;
+
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const hideHome = useLocation().pathname === "/";
 
   return (
     <header className="sticky top-0 z-20 border-b border-[#d6c7b0] bg-white/50 backdrop-blur">
@@ -30,30 +37,39 @@ const Header = () => {
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-700 lg:flex">
+          {!hideHome && (
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) => linkClass(isActive)}
+            >
+              Home
+            </NavLink>
+          )}
           {navItems.map(({ label, to }) => (
             <NavLink
               key={label}
               to={to}
-              className="transition hover:text-[#1f2933]"
+              className={({ isActive }) => linkClass(isActive)}
             >
               {label}
             </NavLink>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <Link
-            to="/login"
-            className="rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:text-[#1f2933]"
+        <div className="hidden items-center gap-2 lg:flex">
+          <InteractiveHoverButton
+            onClick={() => (window.location.href = "/login")}
+            className="min-w-[112px] border-[#d6c7b0] px-3 py-2 text-slate-800 hover:border-[#1f2933]"
           >
             Login
-          </Link>
-          <Link
-            to="/signup"
-            className="rounded-full bg-[#1f2933] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#18202e]"
+          </InteractiveHoverButton>
+          <InteractiveHoverButton
+            onClick={() => (window.location.href = "/signup")}
+            className="min-w-[112px] border-[#1f2933] bg-[#1f2933] px-3 py-2 text-white hover:border-[#0c1323] hover:bg-[#0c1323]"
           >
             Sign Up
-          </Link>
+          </InteractiveHoverButton>
         </div>
 
         <button
@@ -89,46 +105,12 @@ const Header = () => {
         </button>
       </div>
 
-      <div
-        className={`border-t border-[#d6c7b0] bg-white lg:hidden transition-all duration-200 ease-out ${
-          open ? "opacity-100 visible max-h-96" : "opacity-0 invisible max-h-0"
-        }`}
-      >
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-3 text-sm font-medium text-slate-700">
-            {navItems.map(({ label, to }) => (
-              <NavLink
-                key={label}
-                to={to}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  `rounded-md px-2 py-2 transition hover:bg-[#f1ede6] ${
-                    isActive ? "text-[#1f2933]" : ""
-                  }`
-                }
-              >
-                {label}
-              </NavLink>
-            ))}
-          </div>
-          <div className="flex items-center gap-3">
-            <Link
-              to="/login"
-              onClick={() => setOpen(false)}
-              className="flex-1 rounded-md border border-[#d6c7b0] px-4 py-2 text-center text-sm font-semibold text-slate-800 transition hover:bg-[#f1ede6]"
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              onClick={() => setOpen(false)}
-              className="flex-1 rounded-md bg-[#1f2933] px-4 py-2 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-[#18202e]"
-            >
-              Sign Up
-            </Link>
-          </div>
-        </div>
-      </div>
+      <MobileMenu
+        open={open}
+        hideHome={hideHome}
+        navItems={navItems}
+        onClose={() => setOpen(false)}
+      />
     </header>
   );
 };
