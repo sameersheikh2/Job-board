@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import MobileMenu from "./MobileMenu.jsx";
 import { InteractiveHoverButton } from "../../../components/ui/interactive-hover-button.jsx";
+import favicon from "../../../public/favicon.png";
 
 const navItems = [
   { label: "Jobs", to: "/jobs" },
@@ -25,9 +26,7 @@ const Header = () => {
           to="/"
           className="flex items-center gap-2 font-semibold text-slate-900"
         >
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#1f2933] text-lg font-bold text-white">
-            JB
-          </span>
+          <img src={favicon} width={55} height={55} />
           <span className="leading-tight">
             <span className="block text-lg">JobBoard</span>
             <span className="block text-xs text-slate-500">
