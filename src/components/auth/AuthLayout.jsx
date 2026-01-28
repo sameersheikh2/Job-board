@@ -11,7 +11,7 @@ const AuthLayout = ({ sideContent, children }) => {
         <motion.div
           className={cn(
             basePanel,
-            "relative overflow-hidden bg-[#0f172a] text-white shadow-2xl"
+            "relative overflow-hidden bg-[#0f172a] text-white shadow-2xl",
           )}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}

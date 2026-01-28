@@ -7,6 +7,8 @@ const Landing = lazy(() => import("./pages/Landing.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
 const Login = lazy(() => import("./pages/Login.jsx"));
 const Signup = lazy(() => import("./pages/Signup.jsx"));
+const Profile = lazy(() => import("./pages/Profile.jsx"));
+const Recruiters = lazy(() => import("./pages/Recruiters.jsx"));
 
 const fallback = (
   <div className="min-h-screen flex items-center justify-center text-slate-500">
@@ -54,6 +56,14 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: lazyElement(About),
+      },
+      {
+        path: "recruiters",
+        element: lazyElement(Recruiters),
+      },
+      {
+        path: "profile",
+        element: lazyElement(Profile),
       },
     ],
   },

@@ -1,6 +1,7 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import MobileMenuAuth from "./MobileMenuAuth.jsx";
 
-const MobileMenu = ({ open, hideHome, navItems, onClose }) => {
+const MobileMenu = ({ open, hideHome, navItems, onClose, ...authProps }) => {
   const itemClass = (isActive) =>
     `rounded-md px-2 py-2 transition hover:bg-[#f1ede6] ${
       isActive ? "text-[#1f2933]" : ""
@@ -8,7 +9,7 @@ const MobileMenu = ({ open, hideHome, navItems, onClose }) => {
 
   return (
     <div
-      className={`border-t border-[#d6c7b0] bg-white lg:hidden transition-all duration-200 ease-out ${
+      className={`border-t border-[#d6c7b0] bg-white/50 lg:hidden transition-all duration-200 ease-out ${
         open ? "opacity-100 visible max-h-96" : "opacity-0 invisible max-h-0"
       }`}
     >
@@ -35,22 +36,7 @@ const MobileMenu = ({ open, hideHome, navItems, onClose }) => {
             </NavLink>
           ))}
         </div>
-        <div className="flex items-center gap-3">
-          <Link
-            to="/login"
-            onClick={onClose}
-            className="flex-1 rounded-md border border-[#d6c7b0] px-4 py-2 text-center text-sm font-semibold text-slate-800 transition hover:bg-[#f1ede6]"
-          >
-            Login
-          </Link>
-          <Link
-            to="/signup"
-            onClick={onClose}
-            className="flex-1 rounded-md bg-[#1f2933] px-4 py-2 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-[#18202e]"
-          >
-            Sign Up
-          </Link>
-        </div>
+        <MobileMenuAuth {...authProps} onClose={onClose} />
       </div>
     </div>
   );

@@ -1,14 +1,48 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { Link } from "react-router-dom";
 import { Button } from "../../../components/ui/button";
 import RoleSelector from "./RoleSelector.jsx";
+import { registerUser } from "../../features/authSlice/authSlice.jsx";
+import toast, { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 
 const RegisterForm = () => {
-  const [role, setRole] = useState("seeker");
+  const [role, setRole] = useState("job_seeker");
+  const { status } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const isLoading = status === "loading";
+
+  const submitFormHandler = async (e) => {
+    e.preventDefault();
+    if (userData.password !== userData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    if (isLoading) return;
+    try {
+      const response = await dispatch(
+        registerUser({ ...userData, role }),
+      ).unwrap();
+      toast.success(response?.message || "Account created");
+      setTimeout(() => navigate("/login"), 600);
+    } catch (error) {
+      toast.error(error || "Registration failed");
+    }
+  };
 
   return (
     <div className="space-y-6">
+      <Toaster position="bottom-center" reverseOrder={false} />
       <div className="space-y-2">
         <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
           Get started
@@ -23,6 +57,7 @@ const RegisterForm = () => {
       </div>
 
       <motion.form
+        onSubmit={submitFormHandler}
         className="space-y-4"
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
@@ -39,6 +74,7 @@ const RegisterForm = () => {
             id="name"
             name="name"
             type="text"
+            onChange={(e) => setUserData({ ...userData, name: e.target.value })}
             placeholder="Alex Johnson"
             className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
             required
@@ -56,6 +92,9 @@ const RegisterForm = () => {
             name="email"
             type="email"
             placeholder="you@example.com"
+            onChange={(e) =>
+              setUserData({ ...userData, email: e.target.value })
+            }
             className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
             required
           />
@@ -71,6 +110,9 @@ const RegisterForm = () => {
             id="password"
             name="password"
             type="password"
+            onChange={(e) =>
+              setUserData({ ...userData, password: e.target.value })
+            }
             placeholder="••••••••"
             className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
             required
@@ -88,6 +130,9 @@ const RegisterForm = () => {
             name="confirm"
             type="password"
             placeholder="••••••••"
+            onChange={(e) =>
+              setUserData({ ...userData, confirmPassword: e.target.value })
+            }
             className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
             required
           />
@@ -100,10 +145,11 @@ const RegisterForm = () => {
         </div>
 
         <Button
+          disabled={isLoading}
           type="submit"
-          className="w-full bg-[#0f172a] text-white hover:-translate-y-0.5 hover:shadow-lg hover:bg-[#0c1323]"
+          className="w-full bg-[#0f172a] text-white hover:-translate-y-0.5 hover:shadow-lg hover:bg-[#0c1323] cursor-pointer transition"
         >
-          Create account
+          {isLoading ? "Creating account..." : "Create Account"}
         </Button>
       </motion.form>
 

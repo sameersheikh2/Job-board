@@ -1,0 +1,33 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f8f1e6" />
+      <stop offset="1" stop-color="#efe2d2" />
+    </linearGradient>
+    <linearGradient id="ink" x1="260" y1="190" x2="1340" y2="690" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1f2933" />
+      <stop offset="1" stop-color="#0c1323" />
+    </linearGradient>
+    <linearGradient id="accent" x1="480" y1="260" x2="1120" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f4c16d" />
+      <stop offset="1" stop-color="#f59e7a" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" rx="48" fill="url(#bg)" />
+  <rect x="140" y="140" width="1320" height="620" rx="48" fill="white" stroke="#e6dccd" stroke-width="2" />
+  <rect x="200" y="200" width="520" height="64" rx="32" fill="#fbfaf8" stroke="#e6dccd" stroke-width="2" />
+  <rect x="200" y="300" width="380" height="14" rx="7" fill="#e6dccd" />
+  <rect x="200" y="330" width="440" height="14" rx="7" fill="#e6dccd" />
+  <rect x="200" y="360" width="320" height="14" rx="7" fill="#e6dccd" />
+
+  <text x="240" y="252" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#1f2933" letter-spacing="2">DEV HUB IO</text>
+  <text x="240" y="440" font-family="Arial, Helvetica, sans-serif" font-size="64" fill="url(#ink)" font-weight="700">Job Board</text>
+  <text x="240" y="490" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#5b6772">Recruiter-friendly hiring & verified talent.</text>
+
+  <rect x="980" y="240" width="360" height="360" rx="40" fill="url(#ink)" />
+  <path d="M1070 320L1000 420L1070 520" stroke="url(#accent)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M1250 320L1320 420L1250 520" stroke="url(#accent)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="1160" cy="420" r="16" fill="url(#accent)" />
+
+  <text x="200" y="720" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#7b8792">Full-stack MERN product | Auth, Jobs, Profiles | Built by Sameer Sheikh</text>
+</svg>
