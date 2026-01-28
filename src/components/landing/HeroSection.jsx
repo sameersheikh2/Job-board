@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
+import { TypingAnimation } from "../../../components/ui/typing-animation";
 
 const stats = [
   { label: "Jobs posted", value: "12k+" },
@@ -22,13 +23,33 @@ const HeroSection = () => (
           className="inline-flex items-center gap-2 rounded-full bg-[#efe2cf] px-3 py-1 text-xs font-semibold text-[#2b2620] shadow-sm"
           {...fadeUp(0)}
         >
-          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500/70" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+          </span>
           Fresh roles added weekly
         </motion.div>
 
         <motion.div className="space-y-3" {...fadeUp(0.05)}>
           <h1 className="text-4xl font-bold leading-tight text-slate-900 sm:text-5xl border-red-500 border-dashed p-2 border-3 rounded-xl">
-            Find your next developer job
+            Find your next
+            <span className="block text-black">
+              <TypingAnimation
+                words={[
+                  "developer role",
+                  "remote team",
+                  "product mission",
+                  "next big build",
+                  "startup impact",
+                  "leadership track",
+                ]}
+                cursorStyle="underscore"
+                loop
+                duration={85}
+                pauseDelay={1400}
+                className="leading-tight tracking-tight"
+              />
+            </span>
           </h1>
           <p className="text-lg text-slate-600">
             Discover curated opportunities from top startups and enterprises.
