@@ -7,16 +7,23 @@ import {
 } from "../../../components/ui/card.jsx";
 
 const ProfileMetaCard = ({ user }) => {
+  const safeUser = user ?? {};
+  const roleLabel = safeUser.role ? safeUser.role.replace("_", " ") : "Not set";
+  const memberSince = safeUser.createdAt
+    ? new Date(safeUser.createdAt).toLocaleDateString()
+    : "Not set";
+  const statusLabel = safeUser.isVerified ? "Verified" : "Incomplete";
+
   const meta = [
-    { label: "Role", value: user.role.replace("_", " "), icon: UserCircle },
+    { label: "Role", value: roleLabel, icon: UserCircle },
     {
       label: "Member since",
-      value: new Date(user.createdAt).toLocaleDateString(),
+      value: memberSince,
       icon: Calendar,
     },
     {
       label: "Status",
-      value: user.isVerified ? "Verified" : "Incomplete",
+      value: statusLabel,
       icon: ShieldCheck,
     },
   ];

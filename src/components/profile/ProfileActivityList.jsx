@@ -8,13 +8,15 @@ const statusStyles = {
 };
 
 const ProfileActivityList = ({ items, emptyLabel }) => {
-  if (!items.length) {
+  const safeItems = Array.isArray(items) ? items : [];
+
+  if (!safeItems.length) {
     return <p className="text-sm text-slate-500">{emptyLabel}</p>;
   }
 
   return (
     <div className="space-y-3">
-      {items.map((item) => (
+      {safeItems.map((item) => (
         <div
           key={item.id}
           className="rounded-xl border border-[#e6dccd] bg-white px-4 py-3 shadow-sm transition hover:border-[#cbb79e] cursor-pointer"

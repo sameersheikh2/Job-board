@@ -2,13 +2,16 @@ import { Suspense, lazy } from "react";
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
+import RequireProfileCompletion from "./components/auth/RequireProfileCompletion.jsx";
 
 const Landing = lazy(() => import("./pages/Landing.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
 const Login = lazy(() => import("./pages/Login.jsx"));
 const Signup = lazy(() => import("./pages/Signup.jsx"));
 const Profile = lazy(() => import("./pages/Profile.jsx"));
+const ProfileEdit = lazy(() => import("./pages/ProfileEdit.jsx"));
 const Recruiters = lazy(() => import("./pages/Recruiters.jsx"));
+const ProfileOnboarding = lazy(() => import("./pages/ProfileOnboarding.jsx"));
 
 const fallback = (
   <div className="min-h-screen flex items-center justify-center text-slate-500">
@@ -38,32 +41,45 @@ const Layout = () => (
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Layout />,
+    element: <RequireProfileCompletion />,
     children: [
       {
-        index: true,
-        element: lazyElement(Landing),
+        path: "/",
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            element: lazyElement(Landing),
+          },
+          {
+            path: "login",
+            element: lazyElement(Login),
+          },
+          {
+            path: "signup",
+            element: lazyElement(Signup),
+          },
+          {
+            path: "about",
+            element: lazyElement(About),
+          },
+          {
+            path: "recruiters",
+            element: lazyElement(Recruiters),
+          },
+          {
+            path: "profile",
+            element: lazyElement(Profile),
+          },
+          {
+            path: "profile-edit",
+            element: lazyElement(ProfileEdit),
+          },
+        ],
       },
       {
-        path: "login",
-        element: lazyElement(Login),
-      },
-      {
-        path: "signup",
-        element: lazyElement(Signup),
-      },
-      {
-        path: "about",
-        element: lazyElement(About),
-      },
-      {
-        path: "recruiters",
-        element: lazyElement(Recruiters),
-      },
-      {
-        path: "profile",
-        element: lazyElement(Profile),
+        path: "profile-onboarding",
+        element: lazyElement(ProfileOnboarding),
       },
     ],
   },

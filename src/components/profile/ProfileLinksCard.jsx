@@ -7,10 +7,11 @@ import {
 } from "../../../components/ui/card.jsx";
 
 const ProfileLinksCard = ({ profile }) => {
+  const safeProfile = profile ?? {};
   const links = [
-    { label: "Portfolio", value: profile.links?.portfolio },
-    { label: "LinkedIn", value: profile.links?.linkedin },
-    { label: "Resume", value: profile.resumeUrl },
+    { label: "Portfolio", value: safeProfile.links?.portfolio },
+    { label: "LinkedIn", value: safeProfile.links?.linkedin },
+    { label: "Resume", value: safeProfile.resumeUrl },
   ];
 
   return (

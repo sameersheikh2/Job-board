@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
 import { Skeleton } from "../../../components/ui/skeleton.jsx";
 
-const MobileMenuAuth = ({ isAuthenticated, user, isLoading, onClose }) => {
+const MobileMenuAuth = ({
+  isAuthenticated,
+  user,
+  isLoading,
+  onClose,
+  onLogout,
+}) => {
   if (!isAuthenticated) {
     return (
       <div className="flex items-center gap-3">
@@ -46,7 +52,10 @@ const MobileMenuAuth = ({ isAuthenticated, user, isLoading, onClose }) => {
       </Link>
       <button
         type="button"
-        onClick={onClose}
+        onClick={() => {
+          onLogout?.();
+          onClose();
+        }}
         className="w-full rounded-md bg-[#1f2933] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#18202e]"
       >
         Log out

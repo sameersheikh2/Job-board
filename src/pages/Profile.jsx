@@ -1,11 +1,11 @@
 import ProfileHeader from "../components/profile/ProfileHeader.jsx";
 import ProfileInfoCard from "../components/profile/ProfileInfoCard.jsx";
 import ProfileActivitySection from "../components/profile/ProfileActivitySection.jsx";
-import ProfileLinksCard from "../components/profile/ProfileLinksCard.jsx";
 import ProfileMetaCard from "../components/profile/ProfileMetaCard.jsx";
 import ProfileSkeleton from "../components/profile/ProfileSkeleton.jsx";
 import ProfileSkillsCard from "../components/profile/ProfileSkillsCard.jsx";
 import useMockAuth from "../hooks/useMockAuth.js";
+import { useNavigate } from "react-router-dom";
 import {
   Tabs,
   TabsContent,
@@ -15,6 +15,7 @@ import {
 
 const Profile = () => {
   const { user, profile, isLoading, appliedJobs } = useMockAuth();
+  const navigate = useNavigate();
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
@@ -54,18 +55,11 @@ const Profile = () => {
                 <ProfileHeader
                   user={user}
                   profile={profile}
-                  onEdit={() => {}}
+                  onEdit={() => navigate("/profile-edit")}
                 />
-                <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-                  <div className="space-y-6">
-                    <ProfileInfoCard user={user} profile={profile} />
-                    <ProfileSkillsCard profile={profile} />
-                  </div>
-                  <div className="space-y-6">
-                    <ProfileMetaCard user={user} />
-                    <ProfileLinksCard profile={profile} />
-                  </div>
-                </div>
+                <ProfileInfoCard profile={profile} />
+                <ProfileSkillsCard profile={profile} />
+                <ProfileMetaCard user={user} />
               </div>
             </TabsContent>
             <TabsContent value="applied">

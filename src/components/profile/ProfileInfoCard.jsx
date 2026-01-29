@@ -1,4 +1,4 @@
-import { FileText, Mail, MapPin, Sparkles, UserSquare2 } from "lucide-react";
+import { Briefcase, FileText } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -6,40 +6,33 @@ import {
   CardTitle,
 } from "../../../components/ui/card.jsx";
 
-const ProfileInfoCard = ({ user, profile }) => {
-  const items = [
-    { label: "Email", value: user.email, icon: Mail },
-    { label: "Headline", value: profile.headline, icon: Sparkles },
-    { label: "Location", value: profile.location, icon: MapPin },
-  ];
+const ProfileInfoCard = ({ profile }) => {
+  const bio = profile?.bio || "Add a short summary about what you want next.";
+  const headline = profile?.headline || "Add a headline";
+  const experience = profile?.experience || "Experience level not set";
 
   return (
     <Card className="border-[#e6dccd]">
       <CardHeader>
         <CardTitle className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-          <UserSquare2 className="h-5 w-5 sm:h-6 sm:w-6" />
-          Basic Info
+          <FileText className="h-5 w-5 sm:h-6 sm:w-6" />
+          About
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {items.map((item) => (
-          <div key={item.label} className="text-sm">
-            <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-              <item.icon className="h-4 w-4 sm:h-5 sm:w-5" />
-              {item.label}
-            </p>
-            <p className="mt-1 text-sm font-medium text-slate-900 sm:text-base">
-              {item.value || "N/A"}
-            </p>
-          </div>
-        ))}
-        <div className="text-sm">
-          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-            <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
-            Bio
-          </p>
-          <div className="mt-2 rounded-lg border border-[#efe6d8] bg-[#fbfaf8] px-4 py-3 text-sm text-slate-700 leading-relaxed sm:text-base">
-            {profile.bio || "N/A"}
+      <CardContent className="space-y-6">
+        <div className="rounded-xl border border-[#efe6d8] bg-[#fbfaf8] px-4 py-3 text-sm text-slate-700 leading-relaxed sm:text-base">
+          {bio}
+        </div>
+        <div className="rounded-xl border border-[#efe6d8] bg-white px-4 py-3">
+          <div className="flex items-start gap-3">
+            <span className="rounded-lg border border-[#efe6d8] bg-[#fdfcf9] p-2 text-slate-600">
+              <Briefcase className="h-4 w-4" />
+            </span>
+            <div>
+              <p className="text-sm font-semibold text-slate-900">Experience</p>
+              <p className="text-sm text-slate-700">{headline}</p>
+              <p className="text-xs text-slate-500">{experience}</p>
+            </div>
           </div>
         </div>
       </CardContent>

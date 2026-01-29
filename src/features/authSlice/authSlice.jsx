@@ -1,11 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiClient } from "../../api/apiClient.jsx";
 
+let storedUser = null;
+try {
+  storedUser = JSON.parse(localStorage.getItem("user") || "null");
+} catch {
+  storedUser = null;
+}
+
+const storedToken = localStorage.getItem("token") || "";
+
 const initialState = {
-  user: null,
-  token: "",
-  isLoggedIn: false,
-  isVerified: false,
+  user: storedUser,
+  token: storedToken,
+  isLoggedIn: Boolean(storedToken),
+  isVerified: storedUser?.isVerified ?? false,
   status: "idle",
   error: null,
 };
@@ -42,12 +51,20 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    updateUser(state, action) {
+      state.user = action.payload;
+      state.isVerified = action.payload?.isVerified ?? state.isVerified;
+      if (action.payload) {
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      }
+    },
     logout(state) {
       state.user = null;
       state.token = "";
       state.isLoggedIn = false;
       state.isVerified = false;
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
   },
   extraReducers: (builder) => {
@@ -72,6 +89,9 @@ const authSlice = createSlice({
         if (state.token) {
           localStorage.setItem("token", state.token);
         }
+        if (state.user) {
+          localStorage.setItem("user", JSON.stringify(state.user));
+        }
       })
       .addCase(loginUser.rejected, handleRejected);
     builder
@@ -83,10 +103,11 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.isVerified = false;
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
       })
       .addCase(registerUser.rejected, handleRejected);
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, updateUser } = authSlice.actions;
 export default authSlice.reducer;

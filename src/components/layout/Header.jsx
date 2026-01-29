@@ -1,16 +1,27 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import HeaderBrand from "./HeaderBrand.jsx";
 import HeaderNavLinks from "./HeaderNavLinks.jsx";
 import HeaderAuthActions from "./HeaderAuthActions.jsx";
 import MobileMenu from "./MobileMenu.jsx";
 import navItems from "./navItems.js";
-import useMockAuth from "../../hooks/useMockAuth.js";
+import { logout } from "../../features/authSlice/authSlice.jsx";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const hideHome = useLocation().pathname === "/";
-  const { isAuthenticated, isLoading, user } = useMockAuth();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, isLoggedIn, status } = useSelector((state) => state.auth);
+  const isAuthenticated = Boolean(isLoggedIn);
+  const isLoading = status === "loading";
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setOpen(false);
+    navigate("/");
+  };
 
   return (
     <header className="sticky top-0 z-20 border-b border-[#d6c7b0] bg-white/50 backdrop-blur">
@@ -25,6 +36,7 @@ const Header = () => {
           isAuthenticated={isAuthenticated}
           isLoading={isLoading}
           user={user}
+          onLogout={handleLogout}
         />
 
         <button
@@ -68,6 +80,7 @@ const Header = () => {
         isAuthenticated={isAuthenticated}
         user={user}
         isLoading={isLoading}
+        onLogout={handleLogout}
       />
     </header>
   );

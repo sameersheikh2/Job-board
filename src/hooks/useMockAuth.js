@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfile } from "../features/profileSlice/profileSlice.jsx";
 
 // const mockUser = {
 //   name: "Alex Johnson",
@@ -60,30 +61,33 @@ import { useSelector } from "react-redux";
 // ];
 
 const useMockAuth = () => {
-  // TODO: replace mock data with Redux Toolkit user/auth slice.
-  const { user, isVerified, status, error } = useSelector(
+  const dispatch = useDispatch();
+  const { user, isVerified, status, error, isLoggedIn } = useSelector(
     (state) => state.auth,
   );
-  const [isLoading, setIsLoading] = useState(true);
-  const isAuthenticated = false;
-  // const user = useMemo(() => mockUser, []);
-  // const profile = useMemo(() => mockProfile, []);
+  const {
+    profile,
+    status: profileStatus,
+    error: profileError,
+  } = useSelector((state) => state.profile || {});
+  const isAuthenticated = Boolean(isLoggedIn);
+  const isLoading = status === "loading" || profileStatus === "loading";
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 600);
-    return () => clearTimeout(timer);
-  }, []);
+    if (isLoggedIn && user?.role === "job_seeker") {
+      dispatch(fetchProfile());
+    }
+  }, [dispatch, isLoggedIn, user?.role]);
 
   return {
     isVerified,
     status,
-    error,
+    error: error || profileError,
     isAuthenticated,
     isLoading,
     user,
-    // profile,
-    // appliedJobs: mockAppliedJobs,
-    // myJobs: mockMyJobs,
+    profile,
+    appliedJobs: [],
   };
 };
 

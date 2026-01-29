@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { LogOut, UserCircle } from "lucide-react";
 import {
@@ -17,16 +16,16 @@ import {
 import { Skeleton } from "../../../components/ui/skeleton.jsx";
 
 const HeaderProfileMenu = ({ user, isLoading, onLogout = () => {} }) => {
-  const initials = useMemo(
-    () =>
-      user.name
+  const displayName = user?.name || "Your account";
+  const email = user?.email || "";
+  const initials = user?.name
+    ? user.name
         .split(" ")
         .map((part) => part[0])
         .join("")
         .slice(0, 2)
-        .toUpperCase(),
-    [user.name],
-  );
+        .toUpperCase()
+    : "";
 
   return (
     <DropdownMenu>
@@ -39,14 +38,14 @@ const HeaderProfileMenu = ({ user, isLoading, onLogout = () => {} }) => {
             <Skeleton className="h-9 w-9 rounded-full" />
           ) : (
             <Avatar className="h-9 w-9">
-              <AvatarImage src="" alt={user.name} />
+              <AvatarImage src="" alt={displayName} />
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
           )}
           {isLoading ? (
             <Skeleton className="hidden h-4 w-24 rounded sm:inline" />
           ) : (
-            <span className="hidden sm:inline">{user.name}</span>
+            <span className="hidden sm:inline">{displayName}</span>
           )}
         </button>
       </DropdownMenuTrigger>
@@ -58,7 +57,7 @@ const HeaderProfileMenu = ({ user, isLoading, onLogout = () => {} }) => {
           Signed in as
         </DropdownMenuLabel>
         <div className="px-2 pb-1 text-sm font-medium text-slate-800">
-          {user.email}
+          {email}
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild className="gap-2">
@@ -69,9 +68,9 @@ const HeaderProfileMenu = ({ user, isLoading, onLogout = () => {} }) => {
         </DropdownMenuItem>
         <DropdownMenuItem
           onSelect={onLogout}
-          className="gap-2 text-red-500 hover:text-red-700 transition "
+          className="gap-2 text-red-600 data-highlighted:bg-red-50 data-highlighted:text-red-700"
         >
-          <LogOut className="h-4 w-4 text-red-500 hover:text-red-700" />
+          <LogOut className="h-4 w-4 text-red-600 data-highlighted:text-red-700" />
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
