@@ -2,7 +2,7 @@ import { Suspense, lazy } from "react";
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
-import RequireProfileCompletion from "./components/auth/RequireProfileCompletion.jsx";
+import AuthGuard from "./components/auth/AuthGuard.jsx";
 
 const Landing = lazy(() => import("./pages/Landing.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
@@ -11,7 +11,10 @@ const Signup = lazy(() => import("./pages/Signup.jsx"));
 const Profile = lazy(() => import("./pages/Profile.jsx"));
 const ProfileEdit = lazy(() => import("./pages/ProfileEdit.jsx"));
 const Recruiters = lazy(() => import("./pages/Recruiters.jsx"));
+const Jobs = lazy(() => import("./pages/Jobs.jsx"));
+const JobDetails = lazy(() => import("./pages/JobDetails.jsx"));
 const ProfileOnboarding = lazy(() => import("./pages/ProfileOnboarding.jsx"));
+const RecruiterDashboard = lazy(() => import("./pages/RecruiterDashboard.jsx"));
 
 const fallback = (
   <div className="min-h-screen flex items-center justify-center text-slate-500">
@@ -41,7 +44,7 @@ const Layout = () => (
 
 const router = createBrowserRouter([
   {
-    element: <RequireProfileCompletion />,
+    element: <AuthGuard />,
     children: [
       {
         path: "/",
@@ -64,8 +67,20 @@ const router = createBrowserRouter([
             element: lazyElement(About),
           },
           {
+            path: "jobs",
+            element: lazyElement(Jobs),
+          },
+          {
+            path: "jobs/:jobId",
+            element: lazyElement(JobDetails),
+          },
+          {
             path: "recruiters",
             element: lazyElement(Recruiters),
+          },
+          {
+            path: "recruiter-dashboard",
+            element: lazyElement(RecruiterDashboard),
           },
           {
             path: "profile",

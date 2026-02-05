@@ -36,10 +36,13 @@ const LoginForm = () => {
         return;
       }
       showSuccess(response?.message || "Login successful");
+      if (user.role === "recruiter") {
+        navigate("/recruiter-dashboard");
+        return;
+      }
       navigate(user.isVerified ? "/" : "/profile-onboarding");
     } catch (err) {
       showError(err?.message || err || "Login failed");
-      console.error("Login failed", err);
     }
   };
 
@@ -71,6 +74,7 @@ const LoginForm = () => {
             htmlFor="email"
           >
             Email
+            <span className="ml-1 text-rose-500">*</span>
           </label>
           <input
             id="email"
@@ -90,6 +94,7 @@ const LoginForm = () => {
             htmlFor="password"
           >
             Password
+            <span className="ml-1 text-rose-500">*</span>
           </label>
           <input
             id="password"

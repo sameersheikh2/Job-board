@@ -78,9 +78,9 @@ const Recruiters = () => (
           <Button
             asChild
             variant="outline"
-            className="cursor-pointer rounded-full border-[#d6c7b0]"
+            className="cursor-pointer rounded-full border-[#d6c7b0] bg-white text-slate-700 hover:-translate-y-0.5 hover:border-[#0f172a] hover:text-slate-900"
           >
-            <a href="mailto:hello@devhub.io">
+            <a href="#workflow" className="inline-flex items-center gap-2">
               Request a demo
               <ArrowUpRight className="h-4 w-4" />
             </a>

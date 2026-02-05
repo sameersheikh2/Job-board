@@ -13,7 +13,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar.jsx";
-import { Skeleton } from "../../../components/ui/skeleton.jsx";
+import Skeleton from "../../../components/ui/skeleton.jsx";
 
 const HeaderProfileMenu = ({ user, isLoading, onLogout = () => {} }) => {
   const displayName = user?.name || "Your account";

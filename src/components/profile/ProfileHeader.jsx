@@ -4,7 +4,7 @@ import {
   AvatarImage,
 } from "../../../components/ui/avatar.jsx";
 import { Button } from "../../../components/ui/button.jsx";
-import { FileText, Globe, Linkedin } from "lucide-react";
+import { FileText, Github, Linkedin } from "lucide-react";
 
 const ProfileHeader = ({ user, profile, onEdit }) => {
   const displayName = user?.name || "Your name";
@@ -18,21 +18,24 @@ const ProfileHeader = ({ user, profile, onEdit }) => {
   const location = profile?.location || "Location not set";
   const links = [
     {
+      label: "GitHub",
+      href: profile?.links?.github,
+      Icon: Github,
+      emptyLabel: "Add GitHub",
+    },
+    {
       label: "LinkedIn",
       href: profile?.links?.linkedin,
       Icon: Linkedin,
-    },
-    {
-      label: "Portfolio",
-      href: profile?.links?.portfolio,
-      Icon: Globe,
+      emptyLabel: "Add LinkedIn",
     },
     {
       label: "Resume",
       href: profile?.resumeUrl,
       Icon: FileText,
+      emptyLabel: "Add Resume",
     },
-  ].filter((link) => Boolean(link.href));
+  ];
 
   return (
     <div className="rounded-2xl border border-[#e6dccd] bg-white px-6 py-6 shadow-sm sm:px-8">
@@ -57,17 +60,28 @@ const ProfileHeader = ({ user, profile, onEdit }) => {
         <div className="flex flex-wrap items-center gap-3">
           {links.map((link) => {
             const IconComponent = link.Icon;
+            if (link.href) {
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="inline-flex items-center gap-1 rounded-full border border-[#e6dccd] bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-[#cbb79e]"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <IconComponent className="h-4 w-4" />
+                  {link.label}
+                </a>
+              );
+            }
             return (
-              <a
+              <span
                 key={link.label}
-                href={link.href}
-                className="inline-flex items-center gap-1 rounded-full border border-[#e6dccd] bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-[#cbb79e]"
-                target="_blank"
-                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-full border border-dashed border-[#d9c9b2] bg-white px-3 py-2 text-xs font-semibold text-slate-500"
               >
                 <IconComponent className="h-4 w-4" />
-                {link.label}
-              </a>
+                {link.emptyLabel}
+              </span>
             );
           })}
           <Button

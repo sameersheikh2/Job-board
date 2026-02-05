@@ -89,6 +89,7 @@ const RegisterForm = () => {
               htmlFor="firstName"
             >
               First name
+              <span className="ml-1 text-rose-500">*</span>
             </label>
             <input
               id="firstName"
@@ -108,6 +109,7 @@ const RegisterForm = () => {
               htmlFor="lastName"
             >
               Last name
+              <span className="ml-1 text-rose-500">*</span>
             </label>
             <input
               id="lastName"
@@ -128,6 +130,7 @@ const RegisterForm = () => {
             htmlFor="email"
           >
             Email
+            <span className="ml-1 text-rose-500">*</span>
           </label>
           <input
             id="email"
@@ -147,6 +150,7 @@ const RegisterForm = () => {
             htmlFor="password"
           >
             Password
+            <span className="ml-1 text-rose-500">*</span>
           </label>
           <input
             id="password"
@@ -166,6 +170,7 @@ const RegisterForm = () => {
             htmlFor="confirm"
           >
             Confirm password
+            <span className="ml-1 text-rose-500">*</span>
           </label>
           <input
             id="confirm"
@@ -181,7 +186,10 @@ const RegisterForm = () => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-slate-800">Role</label>
+          <label className="text-sm font-semibold text-slate-800">
+            Role
+            <span className="ml-1 text-rose-500">*</span>
+          </label>
           <RoleSelector value={role} onChange={setRole} />
           <input type="hidden" name="role" value={role} />
         </div>

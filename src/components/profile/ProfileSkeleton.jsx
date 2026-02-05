@@ -1,4 +1,4 @@
-import { Skeleton } from "../../../components/ui/skeleton.jsx";
+import Skeleton from "../../../components/ui/skeleton.jsx";
 
 const ProfileSkeleton = () => (
   <div className="space-y-6">

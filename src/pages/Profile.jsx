@@ -4,7 +4,7 @@ import ProfileActivitySection from "../components/profile/ProfileActivitySection
 import ProfileMetaCard from "../components/profile/ProfileMetaCard.jsx";
 import ProfileSkeleton from "../components/profile/ProfileSkeleton.jsx";
 import ProfileSkillsCard from "../components/profile/ProfileSkillsCard.jsx";
-import useMockAuth from "../hooks/useMockAuth.js";
+import useAuthProfile from "../hooks/useAuthProfile.js";
 import { useNavigate } from "react-router-dom";
 import {
   Tabs,
@@ -12,9 +12,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "../../components/ui/tabs.jsx";
+import { Briefcase, UserRound } from "lucide-react";
 
 const Profile = () => {
-  const { user, profile, isLoading, appliedJobs } = useMockAuth();
+  const { user, profile, isLoading, appliedJobs } = useAuthProfile();
   const navigate = useNavigate();
 
   return (
@@ -36,17 +37,19 @@ const Profile = () => {
           <ProfileSkeleton />
         ) : (
           <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="rounded-full border border-[#e6dccd] bg-white/80 p-1 shadow-sm">
+            <TabsList className="h-11 w-full gap-1 rounded-lg border border-slate-200 bg-slate-100/80 p-1 shadow-sm sm:w-fit">
               <TabsTrigger
                 value="profile"
-                className="rounded-full px-4 text-sm font-semibold text-slate-600 data-[state=active]:text-slate-900 cursor-pointer"
+                className="h-9 px-5 text-sm font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm"
               >
+                <UserRound className="h-5 w-5" />
                 Profile
               </TabsTrigger>
               <TabsTrigger
                 value="applied"
-                className="rounded-full px-4 text-sm font-semibold text-slate-600 data-[state=active]:text-slate-900 cursor-pointer"
+                className="h-9 px-5 text-sm font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm"
               >
+                <Briefcase className="h-5 w-5" />
                 Applied Jobs
               </TabsTrigger>
             </TabsList>

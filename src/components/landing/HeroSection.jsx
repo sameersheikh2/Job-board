@@ -12,7 +12,7 @@ const stats = [
   { label: "Candidates", value: "180k" },
 ];
 
-const ROTATION_INTERVAL = 2600;
+const ROTATION_INTERVAL = 2000;
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -59,7 +59,7 @@ const HeroSection = () => {
           </MotionDiv>
 
           <MotionDiv className="space-y-3" {...fadeUp(0.05)}>
-            <h1 className="text-4xl font-bold leading-tight text-slate-900 sm:text-5xl border-red-500 border-dashed p-2 border-3 rounded-xl">
+            <h1 className="text-4xl font-bold leading-tight text-slate-900 sm:text-5xl">
               Find your next
               <span className="block text-black">
                 <TypingAnimation
@@ -91,10 +91,10 @@ const HeroSection = () => {
             {...fadeUp(0.12)}
           >
             <Link
-              to="/signup"
+              to="/jobs"
               className="inline-flex items-center justify-center rounded-full bg-[#0f172a] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/10 transition hover:-translate-y-0.5 hover:bg-[#0c1323] hover:shadow-xl cursor-pointer"
             >
-              Create profile
+              Browse jobs
             </Link>
             <Link
               to="/login"
@@ -123,11 +123,11 @@ const HeroSection = () => {
           <div className="rounded-3xl border border-[#c0b196] bg-[#f9f6ef] p-6 shadow-xl backdrop-blur sm:p-8">
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1f2a44] text-lg font-bold text-white">
-                JB
+                💼
               </div>
               <div>
                 <div className="text-sm font-semibold text-slate-900">
-                  Wellfound-inspired spotlight
+                  Featured jobs
                 </div>
                 <div className="text-xs text-slate-600">
                   Signal-based matches for builders & recruiters
