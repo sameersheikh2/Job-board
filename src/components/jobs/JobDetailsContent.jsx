@@ -80,7 +80,9 @@ const JobDetailsContent = ({ jobDetails, applyCta }) => {
         </div>
 
         <div className="mt-6 border-t border-[#f0e7da] pt-6">
-          <h2 className="text-lg font-semibold text-slate-900">About the role</h2>
+          <h2 className="text-lg font-semibold text-slate-900">
+            About the role
+          </h2>
           <p className="mt-3 whitespace-pre-line text-sm text-slate-600">
             {jobDetails.description}
           </p>
@@ -107,9 +109,7 @@ const JobDetailsContent = ({ jobDetails, applyCta }) => {
             <h3 className="text-sm font-semibold text-slate-900">
               Hiring process
             </h3>
-            <p className="mt-2 text-sm text-slate-600">
-              {jobDetails.hiring}
-            </p>
+            <p className="mt-2 text-sm text-slate-600">{jobDetails.hiring}</p>
           </div>
         ) : null}
       </div>

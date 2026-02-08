@@ -130,6 +130,7 @@ const RecruiterJobForm = () => {
                   minLength={field.minLength}
                   maxLength={field.maxLength}
                   required={field.required}
+                  trim={true}
                 />
               )}
             </FormField>

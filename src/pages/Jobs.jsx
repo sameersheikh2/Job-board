@@ -1,23 +1,36 @@
+// src/pages/Jobs.jsx (or wherever your Jobs component lives)
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchJobs } from "../features/jobSlice/jobSlice.jsx";
-import JobCard from "../components/jobs/JobCard.jsx";
-import JobsFilters from "../components/jobs/JobsFilters.jsx";
-import JobsSkeleton from "../components/jobs/JobsSkeleton.jsx";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useJobsQuery } from "../hooks/useJobsQuery";
+import JobCard from "../components/jobs/JobCard";
+import JobsSkeleton from "../components/jobs/JobsSkeleton";
+import SearchBar from "../components/jobs/SearchBar";
+import FilterPanel from "../components/jobs/FilterPanel";
+import AppliedFiltersBadges from "../components/jobs/AppliedFiltersBadges";
+import Pagination from "../components/jobs/Pagination";
 
 const Jobs = () => {
-  const dispatch = useDispatch();
-  const { jobListings, listingsStatus, listingsError } = useSelector(
-    (state) => state.job,
-  );
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth || {});
-  const isLoading = listingsStatus === "loading";
-  const safeJobs = Array.isArray(jobListings) ? jobListings : [];
 
-  useEffect(() => {
-    dispatch(fetchJobs());
-  }, [dispatch]);
+  const {
+    jobs,
+    isLoading,
+    error,
+    totalJobs,
+    params,
+    updateQueryParams,
+    removeFilter,
+    clearAllFilters,
+    getActiveFilters,
+    getResultsSummary,
+  } = useJobsQuery();
+
+  const activeFilters = getActiveFilters();
+  const safeJobs = Array.isArray(jobs) ? jobs : [];
+
+  const totalPages = totalJobs > 0 ? Math.ceil(totalJobs / params.limit) : 0;
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
@@ -36,26 +49,82 @@ const Jobs = () => {
         </div>
       </div>
 
-      <JobsFilters />
+      <div className="mt-8 space-y-4">
+        <SearchBar
+          key={params.search}
+          value={params.search}
+          onChange={(search) => updateQueryParams({ search, page: 1 })}
+        />
 
-      {listingsError && (
-        <p className="mt-6 text-sm text-rose-500">{listingsError}</p>
-      )}
-      {isLoading ? (
-        <JobsSkeleton />
-      ) : (
-        <div className="mt-8 grid gap-4 lg:grid-cols-2">
-          {safeJobs.map((job) => (
-            <JobCard key={job._id || job.id} job={job} />
-          ))}
+        <FilterPanel
+          params={params}
+          onFilterChange={(filters) =>
+            updateQueryParams({ ...filters, page: 1 })
+          }
+          onClearAll={clearAllFilters}
+          isMobile={true}
+          isOpen={isFilterOpen}
+          onToggle={setIsFilterOpen}
+        />
+      </div>
+
+      <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-8">
+        <div className="flex-1">
+          <div className="mb-4">
+            <p className="text-lg font-medium text-slate-900">
+              {getResultsSummary()}
+            </p>
+          </div>
+
+          {activeFilters.length > 0 && (
+            <div className="mb-6">
+              <AppliedFiltersBadges
+                activeFilters={activeFilters}
+                onRemoveFilter={removeFilter}
+                onClearAll={clearAllFilters}
+              />
+            </div>
+          )}
+
+          {error && <p className="mt-6 text-sm text-rose-500">{error}</p>}
+
+          {isLoading ? (
+            <JobsSkeleton />
+          ) : (
+            <div className="grid gap-4 lg:grid-cols-2">
+              {safeJobs.map((job) => (
+                <JobCard key={job._id || job.id} job={job} />
+              ))}
+            </div>
+          )}
+
+          {!isLoading && !safeJobs.length && !error && (
+            <p className="mt-6 text-sm text-slate-500">
+              No roles available right now. Check back soon.
+            </p>
+          )}
+
+          {!isLoading && totalPages > 1 && (
+            <Pagination
+              currentPage={params.page}
+              totalPages={totalPages}
+              onPageChange={(page) => updateQueryParams({ page })}
+            />
+          )}
         </div>
-      )}
 
-      {!isLoading && !safeJobs.length && !listingsError && (
-        <p className="mt-6 text-sm text-slate-500">
-          No roles available right now. Check back soon.
-        </p>
-      )}
+        <div className="hidden lg:block lg:w-80 lg:shrink-0">
+          <div className="lg:sticky lg:top-24">
+            <FilterPanel
+              params={params}
+              onFilterChange={(filters) =>
+                updateQueryParams({ ...filters, page: 1 })
+              }
+              onClearAll={clearAllFilters}
+            />
+          </div>
+        </div>
+      </div>
 
       {!isLoggedIn && (
         <div className="mt-10 rounded-2xl border border-[#e6dccd] bg-white/90 p-6 text-center shadow-sm">

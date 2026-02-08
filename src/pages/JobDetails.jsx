@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowLeft } from "lucide-react";
 import { fetchJobById } from "../features/jobSlice/jobSlice.jsx";
@@ -8,6 +8,7 @@ import JobDetailsSidebar from "../components/jobs/JobDetailsSidebar.jsx";
 import JobDetailsSkeleton from "../components/jobs/JobDetailsSkeleton.jsx";
 
 const JobDetails = () => {
+  const navigate = useNavigate();
   const { jobId } = useParams();
   const dispatch = useDispatch();
   const { jobDetails, jobDetailsStatus, jobDetailsError } = useSelector(
@@ -38,13 +39,13 @@ const JobDetails = () => {
   if (jobDetailsError) {
     return (
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-        <Link
-          to="/jobs"
+        <button
+          onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to jobs
-        </Link>
+        </button>
         <p className="mt-6 text-sm text-rose-500">{jobDetailsError}</p>
       </section>
     );
@@ -53,13 +54,13 @@ const JobDetails = () => {
   if (!jobDetails) {
     return (
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-        <Link
-          to="/jobs"
+        <button
+          onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to jobs
-        </Link>
+        </button>
         <p className="mt-6 text-sm text-slate-500">
           This role is no longer available.
         </p>
@@ -69,13 +70,13 @@ const JobDetails = () => {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-      <Link
-        to="/jobs"
+      <button
+        onClick={() => navigate(-1)}
         className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to jobs
-      </Link>
+      </button>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         <JobDetailsContent jobDetails={jobDetails} applyCta={applyCta} />

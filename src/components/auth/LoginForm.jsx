@@ -40,7 +40,7 @@ const LoginForm = () => {
         navigate("/recruiter-dashboard");
         return;
       }
-      navigate(user.isVerified ? "/" : "/profile-onboarding");
+      navigate(user.isVerified ? -1 : "/profile-onboarding");
     } catch (err) {
       showError(err?.message || err || "Login failed");
     }
