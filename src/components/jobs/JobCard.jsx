@@ -1,16 +1,48 @@
-import { Link } from "react-router-dom";
-import { BarChart3, Briefcase, CalendarDays, MapPin, Users } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  BarChart3,
+  Briefcase,
+  CalendarDays,
+  MapPin,
+  Users,
+} from "lucide-react";
 import { formatExperience } from "../../utils/experience.js";
-import { formatDate, formatStatus, statusStyles } from "../../utils/jobFormatters.js";
+import {
+  formatDate,
+  formatStatus,
+  statusStyles,
+} from "../../utils/jobFormatters.js";
+import { useSelector } from "react-redux";
 
 const JobCard = ({ job }) => {
   const statusKey = (job.status || "ACTIVE").toUpperCase();
+  const { user, isLoggedIn } = useSelector((state) => state.auth || {});
+  const navigate = useNavigate();
   const jobId = job._id || job.id;
   const postedLabel = formatDate(job.createdAt || job.posted);
   const employmentLabel = job.employment
     ? formatStatus(job.employment.replace(/-/g, " "))
     : "";
   const experienceDisplay = formatExperience(job.experience);
+  const handleApply = () => {
+    if (user?.role === "recruiter") {
+      navigate("/recruiter-dashboard");
+      return;
+    }
+
+    if (!isLoggedIn) {
+      navigate("/login", { state: { returnTo: `/jobs/${jobId}` } });
+      return;
+    }
+
+    navigate("/profile-edit", {
+      state: {
+        returnTo: `/jobs/${jobId}`,
+        isApplyFlow: true,
+        jobId: jobId,
+      },
+    });
+  };
 
   return (
     <div
@@ -68,12 +100,12 @@ const JobCard = ({ job }) => {
           >
             View details
           </Link>
-          <Link
-            to="/signup"
+          <button
+            onClick={handleApply}
             className="inline-flex items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
           >
             Apply now
-          </Link>
+          </button>
         </div>
       </div>
     </div>

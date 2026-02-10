@@ -20,6 +20,10 @@ const ProfileDetailsForm = ({
   loadingLabel = "Saving...",
   cancelLabel = "Cancel",
   onCancel,
+  showApplyButton = false,
+  applyLabel = "Save and Apply",
+  onApplyAndSave,
+  resumeWarningMessage = null,
 }) => {
   const defaultValues = {
     name: "",
@@ -268,6 +272,12 @@ const ProfileDetailsForm = ({
           />
         </div>
 
+        {resumeWarningMessage && (
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
+            <p className="text-sm text-amber-900">{resumeWarningMessage}</p>
+          </div>
+        )}
+
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-slate-500">{footerNote}</p>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -294,6 +304,23 @@ const ProfileDetailsForm = ({
                 submitLabel
               )}
             </button>
+            {showApplyButton && onApplyAndSave && (
+              <button
+                type="button"
+                onClick={() => onApplyAndSave(formValues)}
+                disabled={isLoading}
+                className="inline-flex items-center justify-center rounded-full bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-green-900/10 transition hover:-translate-y-0.5 hover:bg-green-700 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {isLoading ? (
+                  <span className="inline-flex items-center gap-2">
+                    <Spinner className="size-4 text-white" />
+                    {loadingLabel}
+                  </span>
+                ) : (
+                  applyLabel
+                )}
+              </button>
+            )}
           </div>
         </div>
       </form>

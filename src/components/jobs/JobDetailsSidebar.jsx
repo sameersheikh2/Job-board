@@ -10,7 +10,7 @@ import {
 import { formatExperience } from "../../utils/experience.js";
 import { formatDate, formatStatus } from "../../utils/jobFormatters.js";
 
-const JobDetailsSidebar = ({ jobDetails, applyCta }) => {
+const JobDetailsSidebar = ({ jobDetails, applyCta, onApply }) => {
   const employmentLabel = jobDetails.employment
     ? formatStatus(jobDetails.employment.replace(/-/g, " "))
     : "";
@@ -32,12 +32,21 @@ const JobDetailsSidebar = ({ jobDetails, applyCta }) => {
           Make sure your profile is up to date before applying.
         </p>
         <div className="mt-5 space-y-3">
-          <Link
-            to={applyCta.to}
-            className="inline-flex w-full items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
-          >
-            {applyCta.label}
-          </Link>
+          {onApply ? (
+            <button
+              onClick={onApply}
+              className="inline-flex w-full items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
+            >
+              {applyCta.label}
+            </button>
+          ) : (
+            <Link
+              to={applyCta.to}
+              className="inline-flex w-full items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
+            >
+              {applyCta.label}
+            </Link>
+          )}
           <Link
             to="/jobs"
             className="inline-flex w-full items-center justify-center rounded-full border border-[#cbb89f] px-4 py-2 text-sm font-semibold text-[#0f172a] transition hover:bg-[#f2e8d8]"

@@ -3,7 +3,7 @@ import { ArrowLeft, BarChart3, Briefcase, MapPin, Users } from "lucide-react";
 import { formatExperience } from "../../utils/experience.js";
 import { formatStatus, statusStyles } from "../../utils/jobFormatters.js";
 
-const JobDetailsContent = ({ jobDetails, applyCta }) => {
+const JobDetailsContent = ({ jobDetails, applyCta, onApply }) => {
   const statusKey = (jobDetails.status || "ACTIVE").toUpperCase();
   const employmentLabel = jobDetails.employment
     ? formatStatus(jobDetails.employment.replace(/-/g, " "))
@@ -35,12 +35,21 @@ const JobDetailsContent = ({ jobDetails, applyCta }) => {
               {jobDetails.team ? ` · ${jobDetails.team}` : ""}
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3 lg:hidden">
-              <Link
-                to={applyCta.to}
-                className="inline-flex items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
-              >
-                {applyCta.label}
-              </Link>
+              {onApply ? (
+                <button
+                  onClick={onApply}
+                  className="inline-flex items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
+                >
+                  {applyCta.label}
+                </button>
+              ) : (
+                <Link
+                  to={applyCta.to}
+                  className="inline-flex items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
+                >
+                  {applyCta.label}
+                </Link>
+              )}
               <Link
                 to="/jobs"
                 className="text-xs font-semibold text-slate-600 hover:text-slate-900"

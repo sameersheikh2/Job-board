@@ -27,10 +27,30 @@ const JobDetails = () => {
       return { label: "Manage in dashboard", to: "/recruiter-dashboard" };
     }
     if (isLoggedIn) {
-      return { label: "Apply now", to: "/profile" };
+      return { label: "Apply now", to: "/profile-edit" };
     }
     return { label: "Login to apply", to: "/login" };
   }, [isLoggedIn, user?.role]);
+
+  const handleApply = () => {
+    if (user?.role === "recruiter") {
+      navigate("/recruiter-dashboard");
+      return;
+    }
+
+    if (!isLoggedIn) {
+      navigate("/login", { state: { returnTo: `/jobs/${jobId}` } });
+      return;
+    }
+
+    navigate("/profile-edit", {
+      state: {
+        returnTo: `/jobs/${jobId}`,
+        isApplyFlow: true,
+        jobId: jobId,
+      },
+    });
+  };
 
   if (jobDetailsStatus === "loading") {
     return <JobDetailsSkeleton />;
@@ -79,8 +99,16 @@ const JobDetails = () => {
       </button>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <JobDetailsContent jobDetails={jobDetails} applyCta={applyCta} />
-        <JobDetailsSidebar jobDetails={jobDetails} applyCta={applyCta} />
+        <JobDetailsContent
+          jobDetails={jobDetails}
+          applyCta={applyCta}
+          onApply={handleApply}
+        />
+        <JobDetailsSidebar
+          jobDetails={jobDetails}
+          applyCta={applyCta}
+          onApply={handleApply}
+        />
       </div>
     </section>
   );
