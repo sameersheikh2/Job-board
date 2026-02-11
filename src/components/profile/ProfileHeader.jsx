@@ -16,6 +16,29 @@ const ProfileHeader = ({ user, profile, onEdit }) => {
     .toUpperCase();
   const headline = profile?.headline || "Add a headline";
   const location = profile?.location || "Location not set";
+
+  // Style mapping for different link types
+  const linkStyles = {
+    GitHub: {
+      filled:
+        "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/20 hover:bg-slate-800 hover:border-slate-800 hover:shadow-lg hover:shadow-slate-900/30",
+      empty:
+        "border-dashed border-slate-300 text-slate-400 hover:border-slate-400 hover:text-slate-500 hover:bg-slate-50",
+    },
+    LinkedIn: {
+      filled:
+        "bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-600/20 hover:bg-blue-700 hover:border-blue-700 hover:shadow-lg hover:shadow-blue-600/30",
+      empty:
+        "border-dashed border-blue-200 text-blue-400 hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50",
+    },
+    Resume: {
+      filled:
+        "bg-orange-500 border-orange-500 text-white shadow-md shadow-orange-500/20 hover:bg-orange-600 hover:border-orange-600 hover:shadow-lg hover:shadow-orange-500/30",
+      empty:
+        "border-dashed border-orange-200 text-orange-400 hover:border-orange-400 hover:text-orange-500 hover:bg-orange-50",
+    },
+  };
+
   const links = [
     {
       label: "GitHub",
@@ -60,12 +83,13 @@ const ProfileHeader = ({ user, profile, onEdit }) => {
         <div className="flex flex-wrap items-center gap-3">
           {links.map((link) => {
             const IconComponent = link.Icon;
+            const styles = linkStyles[link.label];
             if (link.href) {
               return (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="inline-flex items-center gap-1 rounded-full border border-[#e6dccd] bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-[#cbb79e]"
+                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold transition duration-200 hover:-translate-y-1 ${styles.filled}`}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -77,7 +101,7 @@ const ProfileHeader = ({ user, profile, onEdit }) => {
             return (
               <span
                 key={link.label}
-                className="inline-flex items-center gap-1 rounded-full border border-dashed border-[#d9c9b2] bg-white px-3 py-2 text-xs font-semibold text-slate-500"
+                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold transition duration-200 cursor-not-allowed ${styles.empty}`}
               >
                 <IconComponent className="h-4 w-4" />
                 {link.emptyLabel}

@@ -9,7 +9,7 @@ import {
 const ProfileLinksCard = ({ profile }) => {
   const safeProfile = profile ?? {};
   const links = [
-    { label: "Portfolio", value: safeProfile.links?.portfolio },
+    { label: "GitHub", value: safeProfile.links?.github },
     { label: "LinkedIn", value: safeProfile.links?.linkedin },
     { label: "Resume", value: safeProfile.resumeUrl },
   ];

@@ -32,7 +32,7 @@ const ProfileDetailsForm = ({
     experience: "",
     bio: "",
     skills: "",
-    portfolio: "",
+    github: "",
     linkedin: "",
     resume: "",
   };
@@ -218,17 +218,17 @@ const ProfileDetailsForm = ({
           <div className="space-y-2">
             <label
               className="text-sm font-semibold text-slate-800"
-              htmlFor="portfolio"
+              htmlFor="github"
             >
-              Portfolio URL
+              GitHub URL
             </label>
             <input
-              id="portfolio"
-              name="portfolio"
+              id="github"
+              name="github"
               type="url"
-              value={formValues.portfolio}
+              value={formValues.github}
               onChange={handleChange}
-              placeholder="https://your-site.com"
+              placeholder="https://github.com/username"
               className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
               maxLength={160}
             />

@@ -26,7 +26,7 @@ const OnboardingForm = () => {
       bio: values.bio,
       skills: parseSkills(values.skills || ""),
       links: {
-        portfolio: values.portfolio,
+        github: values.github,
         linkedin: values.linkedin,
       },
       resumeUrl: values.resume,

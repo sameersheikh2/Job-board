@@ -38,7 +38,7 @@ const ProfileEdit = () => {
     skills: Array.isArray(profile?.skills)
       ? profile.skills.join(", ")
       : profile?.skills || "",
-    portfolio: profile?.links?.portfolio || "",
+    github: profile?.links?.github || "",
     linkedin: profile?.links?.linkedin || "",
     resume: profile?.resumeUrl || "",
   };
@@ -58,7 +58,7 @@ const ProfileEdit = () => {
       bio: values.bio,
       skills: parseSkills(values.skills || ""),
       links: {
-        portfolio: values.portfolio,
+        github: values.github,
         linkedin: values.linkedin,
       },
       resumeUrl: values.resume,
@@ -86,7 +86,7 @@ const ProfileEdit = () => {
       bio: values.bio,
       skills: parseSkills(values.skills || ""),
       links: {
-        portfolio: values.portfolio,
+        github: values.github,
         linkedin: values.linkedin,
       },
       resumeUrl: values.resume,
