@@ -3,7 +3,7 @@ import { ArrowLeft, BarChart3, Briefcase, MapPin, Users } from "lucide-react";
 import { formatExperience } from "../../utils/experience.js";
 import { formatStatus, statusStyles } from "../../utils/jobFormatters.js";
 
-const JobDetailsContent = ({ jobDetails, applyCta, onApply }) => {
+const JobDetailsContent = ({ jobDetails, applyCta, onApply, isDisabled }) => {
   const statusKey = (jobDetails.status || "ACTIVE").toUpperCase();
   const employmentLabel = jobDetails.employment
     ? formatStatus(jobDetails.employment.replace(/-/g, " "))
@@ -35,7 +35,14 @@ const JobDetailsContent = ({ jobDetails, applyCta, onApply }) => {
               {jobDetails.team ? ` · ${jobDetails.team}` : ""}
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3 lg:hidden">
-              {onApply ? (
+              {isDisabled ? (
+                <button
+                  disabled
+                  className="inline-flex items-center justify-center rounded-full bg-slate-300 px-4 py-2 text-xs font-semibold text-slate-500 cursor-not-allowed"
+                >
+                  {applyCta.label}
+                </button>
+              ) : onApply ? (
                 <button
                   onClick={onApply}
                   className="inline-flex items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"

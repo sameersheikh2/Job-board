@@ -4,6 +4,7 @@ import { logout, updateUser } from "../authSlice/authSlice.jsx";
 
 const initialState = {
   profile: null,
+  applications: [],
   status: "idle",
   error: null,
 };
@@ -60,6 +61,7 @@ const profileSlice = createSlice({
     const handleFulfilled = (state, action) => {
       state.status = "succeeded";
       state.profile = action.payload?.data?.profile || null;
+      state.applications = action.payload?.data?.applications || [];
     };
 
     builder

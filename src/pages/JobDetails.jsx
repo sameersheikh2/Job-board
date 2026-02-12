@@ -11,9 +11,13 @@ const JobDetails = () => {
   const navigate = useNavigate();
   const { jobId } = useParams();
   const dispatch = useDispatch();
-  const { jobDetails, jobDetailsStatus, jobDetailsError } = useSelector(
-    (state) => state.job,
-  );
+  const {
+    jobDetails,
+    jobDetailsStatus,
+    jobDetailsError,
+    hasApplied,
+    applicationStatus,
+  } = useSelector((state) => state.job);
   const { user, isLoggedIn } = useSelector((state) => state.auth || {});
 
   useEffect(() => {
@@ -26,11 +30,17 @@ const JobDetails = () => {
     if (user?.role === "recruiter") {
       return { label: "Manage in dashboard", to: "/recruiter-dashboard" };
     }
+    if (hasApplied) {
+      return {
+        label: `Already Applied (${applicationStatus})`,
+        disabled: true,
+      };
+    }
     if (isLoggedIn) {
       return { label: "Apply now", to: "/profile-edit" };
     }
     return { label: "Login to apply", to: "/login" };
-  }, [isLoggedIn, user?.role]);
+  }, [isLoggedIn, user?.role, hasApplied, applicationStatus]);
 
   const handleApply = () => {
     if (user?.role === "recruiter") {
@@ -103,11 +113,13 @@ const JobDetails = () => {
           jobDetails={jobDetails}
           applyCta={applyCta}
           onApply={handleApply}
+          isDisabled={applyCta.disabled}
         />
         <JobDetailsSidebar
           jobDetails={jobDetails}
           applyCta={applyCta}
           onApply={handleApply}
+          isDisabled={applyCta.disabled}
         />
       </div>
     </section>

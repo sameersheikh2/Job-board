@@ -15,6 +15,8 @@ const intialState = {
   createStatus: "idle",
   createError: null,
   jobDetails: null,
+  hasApplied: false,
+  applicationStatus: null,
   jobDetailsStatus: "idle",
   jobDetailsError: null,
 };
@@ -150,10 +152,10 @@ const jobSlice = createSlice({
       })
       .addCase(fetchJobById.fulfilled, (state, action) => {
         state.jobDetailsStatus = "succeeded";
-        state.jobDetails = null;
-        const job =
-          action.payload?.data?.job || action.payload?.data || action.payload;
-        state.jobDetails = job;
+        state.jobDetails = action.payload?.data?.job || null;
+        state.hasApplied = action.payload?.data?.hasApplied || false;
+        state.applicationStatus =
+          action.payload?.data?.applicationStatus || null;
       });
   },
 });

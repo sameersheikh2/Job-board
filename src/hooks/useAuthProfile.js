@@ -9,6 +9,7 @@ const useAuthProfile = () => {
   );
   const {
     profile,
+    applications,
     status: profileStatus,
     error: profileError,
   } = useSelector((state) => state.profile || {});
@@ -29,7 +30,7 @@ const useAuthProfile = () => {
     isLoading,
     user,
     profile,
-    appliedJobs: [],
+    appliedJobs: applications || [],
   };
 };
 

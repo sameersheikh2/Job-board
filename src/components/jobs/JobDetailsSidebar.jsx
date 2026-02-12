@@ -10,7 +10,7 @@ import {
 import { formatExperience } from "../../utils/experience.js";
 import { formatDate, formatStatus } from "../../utils/jobFormatters.js";
 
-const JobDetailsSidebar = ({ jobDetails, applyCta, onApply }) => {
+const JobDetailsSidebar = ({ jobDetails, applyCta, onApply, isDisabled }) => {
   const employmentLabel = jobDetails.employment
     ? formatStatus(jobDetails.employment.replace(/-/g, " "))
     : "";
@@ -32,7 +32,14 @@ const JobDetailsSidebar = ({ jobDetails, applyCta, onApply }) => {
           Make sure your profile is up to date before applying.
         </p>
         <div className="mt-5 space-y-3">
-          {onApply ? (
+          {isDisabled ? (
+            <button
+              disabled
+              className="inline-flex w-full items-center justify-center rounded-full bg-slate-300 px-4 py-2 text-sm font-semibold text-slate-500 cursor-not-allowed"
+            >
+              {applyCta.label}
+            </button>
+          ) : onApply ? (
             <button
               onClick={onApply}
               className="inline-flex w-full items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
