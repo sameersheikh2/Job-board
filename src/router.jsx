@@ -3,6 +3,8 @@ import { Outlet, createBrowserRouter } from "react-router-dom";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import AuthGuard from "./components/auth/AuthGuard.jsx";
+import { Spinner } from "../components/ui/spinner.jsx";
+import { Button } from "../components/ui/button.jsx";
 
 const Landing = lazy(() => import("./pages/Landing.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
@@ -18,7 +20,10 @@ const RecruiterDashboard = lazy(() => import("./pages/RecruiterDashboard.jsx"));
 
 const fallback = (
   <div className="min-h-screen flex items-center justify-center text-slate-500">
-    Loading...
+    <Button disabled size="lg">
+      <Spinner size="6" />
+      Loading...
+    </Button>
   </div>
 );
 
