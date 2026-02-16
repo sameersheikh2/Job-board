@@ -5,6 +5,8 @@ import {
   CalendarDays,
   MapPin,
   Users,
+  ArrowRight,
+  Star,
 } from "lucide-react";
 import { formatExperience } from "../../utils/experience.js";
 import {
@@ -13,10 +15,13 @@ import {
   statusStyles,
 } from "../../utils/jobFormatters.js";
 import { useSelector } from "react-redux";
+import { showError } from "../../utils/toast.js";
 
 const JobCard = ({ job }) => {
   const statusKey = (job.status || "ACTIVE").toUpperCase();
   const { user, isLoggedIn } = useSelector((state) => state.auth || {});
+  const hasApplied = useSelector((state) => state.job.hasApplied);
+  const applicationStatus = useSelector((state) => state.job.applicationStatus);
   const navigate = useNavigate();
   const jobId = job._id || job.id;
   const postedLabel = formatDate(job.createdAt || job.posted);
@@ -24,7 +29,13 @@ const JobCard = ({ job }) => {
     ? formatStatus(job.employment.replace(/-/g, " "))
     : "";
   const experienceDisplay = formatExperience(job.experience);
+
   const handleApply = () => {
+    console.log(hasApplied);
+    if (hasApplied) {
+      showError(`You have already applied to this job (${applicationStatus}).`);
+      return;
+    }
     if (user?.role === "recruiter") {
       navigate("/recruiter-dashboard");
       return;
@@ -48,63 +59,96 @@ const JobCard = ({ job }) => {
     <div
       key={jobId}
       id={jobId}
-      className="rounded-2xl border border-[#e6dccd] bg-white p-5 shadow-sm"
+      className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white transition-all duration-300 hover:border-slate-300 hover:shadow-lg"
     >
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="text-lg font-semibold text-slate-900">{job.title}</p>
-          <p className="text-xs text-slate-500">
-            {job.company}
-            {job.team ? ` · ${job.team}` : ""}
-          </p>
+      {/* Gradient background on hover */}
+      <div className="absolute inset-0 bg-linear-to-br from-slate-50 to-slate-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+      <div className="relative z-10 flex flex-col p-5 sm:p-6">
+        {/* Header with title and status */}
+        <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-start">
+          <div className="flex-1">
+            <Link to={`/jobs/${jobId}`} className="group/title">
+              <p className="text-lg font-bold text-slate-900 transition-colors group-hover/title:text-slate-700 sm:text-xl">
+                {job.title}
+              </p>
+            </Link>
+            <p className="mt-1 text-sm text-slate-500">
+              {job.company}
+              {job.team ? ` • ${job.team}` : ""}
+            </p>
+          </div>
+          <div className="flex shrink-0 items-center gap-2">
+            <span
+              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold transition-all ${
+                statusStyles[statusKey] || "bg-slate-100 text-slate-700"
+              }`}
+            >
+              {formatStatus(statusKey)}
+            </span>
+          </div>
         </div>
-        <span
-          className={`rounded-full px-3 py-1 text-xs font-semibold ${
-            statusStyles[statusKey] || "bg-slate-100 text-slate-700"
-          }`}
-        >
-          {formatStatus(statusKey)}
-        </span>
-      </div>
-      <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-slate-500">
-        <span className="flex items-center gap-1">
-          <MapPin className="h-4 w-4" />
-          {job.locationType ? `${job.locationType} · ` : ""}
-          {job.location}
-        </span>
-        <span className="flex items-center gap-1">
-          <CalendarDays className="h-4 w-4" />
-          {postedLabel}
-        </span>
-        <span className="flex items-center gap-1">
-          <Briefcase className="h-4 w-4" />
-          {employmentLabel || "Role"}
-        </span>
-        <span className="flex items-center gap-1">
-          <BarChart3 className="h-4 w-4" />
-          {experienceDisplay || "Experience"}
-        </span>
-        <span className="flex items-center gap-1">
-          <Users className="h-4 w-4" />
-          {job.openings ?? 0} openings
-        </span>
-      </div>
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-xs text-slate-500">
-          Company: <span className="text-slate-700">{job.company}</span>
-        </p>
-        <div className="flex items-center gap-3">
+
+        {/* Job metadata */}
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:flex lg:flex-wrap lg:gap-2">
+          <div className="flex items-center gap-2 rounded-lg bg-slate-50 px-2.5 py-1.5 sm:px-3 sm:py-2 transition-colors group-hover:bg-slate-100 whitespace-nowrap text-xs">
+            <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 shrink-0" />
+            <span className="text-slate-700 line-clamp-1">
+              {job.locationType ? `${job.locationType}` : ""}
+              {job.locationType && job.location ? " • " : ""}
+              {job.location}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 rounded-lg bg-slate-50 px-2.5 py-1.5 sm:px-3 sm:py-2 transition-colors group-hover:bg-slate-100 whitespace-nowrap text-xs">
+            <CalendarDays className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 shrink-0" />
+            <span className="text-slate-700">{postedLabel}</span>
+          </div>
+
+          <div className="flex items-center gap-2 rounded-lg bg-slate-50 px-2.5 py-1.5 sm:px-3 sm:py-2 transition-colors group-hover:bg-slate-100 whitespace-nowrap text-xs">
+            <Briefcase className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 shrink-0" />
+            <span className="text-slate-700">
+              {employmentLabel || "Full-time"}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 rounded-lg bg-slate-50 px-2.5 py-1.5 sm:px-3 sm:py-2 transition-colors group-hover:bg-slate-100 whitespace-nowrap text-xs">
+            <BarChart3 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 shrink-0" />
+            <span className="text-slate-700 line-clamp-1">
+              {experienceDisplay || "Any level"}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 rounded-lg bg-slate-50 px-2.5 py-1.5 sm:px-3 sm:py-2 transition-colors group-hover:bg-slate-100 whitespace-nowrap text-xs">
+            <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 shrink-0" />
+            <span className="text-slate-700">
+              {job.openings ?? 1} opening{job.openings !== 1 ? "s" : ""}
+            </span>
+          </div>
+        </div>
+
+        {/* Description preview (if available) */}
+        {job.description && (
+          <p className="mt-4 line-clamp-2 text-sm text-slate-600">
+            {job.description}
+          </p>
+        )}
+
+        {/* Footer with actions */}
+        <div className="mt-5 flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center">
           <Link
             to={`/jobs/${jobId}`}
-            className="text-xs font-semibold text-[#0f172a] hover:underline"
+            className="flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:border-slate-300 active:bg-slate-100"
           >
             View details
+            <ArrowRight className="h-4 w-4" />
           </Link>
           <button
             onClick={handleApply}
-            className="inline-flex items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
+            className="flex items-center justify-center gap-2 rounded-lg bg-linear-to-r from-slate-900 to-slate-800 px-4 py-2 text-sm font-medium text-white shadow-md transition hover:shadow-lg active:scale-95"
           >
             Apply now
+            <Star className="h-4 w-4" />
           </button>
         </div>
       </div>

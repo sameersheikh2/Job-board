@@ -5,15 +5,18 @@ import { logout, updateUser } from "../authSlice/authSlice.jsx";
 const initialState = {
   profile: null,
   applications: [],
+  totalApplications: 0,
+  applicationsPage: 1,
+  applicationsLimit: 25,
   status: "idle",
   error: null,
 };
 
 export const fetchProfile = createAsyncThunk(
   "profile/fetchProfile",
-  async (_, thunkAPI) => {
+  async (params = {}, thunkAPI) => {
     try {
-      const response = await apiClient.get("/profile/me");
+      const response = await apiClient.get("/profile/me", { params });
       const user = response.data?.data?.user;
       if (user) {
         thunkAPI.dispatch(updateUser(user));
@@ -62,6 +65,7 @@ const profileSlice = createSlice({
       state.status = "succeeded";
       state.profile = action.payload?.data?.profile || null;
       state.applications = action.payload?.data?.applications || [];
+      state.totalApplications = action.payload?.data?.totalApplications || 0;
     };
 
     builder

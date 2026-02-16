@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import ProfileDetailsForm from "../components/profile/ProfileDetailsForm.jsx";
 import {
   fetchProfile,
   upsertProfile,
 } from "../features/profileSlice/profileSlice.jsx";
-import { showError, showSuccess } from "../utils/toast.js";
 import { applyToJob } from "../features/applicationSlice/applicationSlice.jsx";
-import { useEffect } from "react";
+import { showError, showSuccess } from "../utils/toast.js";
 
 const ProfileEdit = () => {
   const user = useSelector((state) => state.auth.user);
@@ -24,11 +24,6 @@ const ProfileEdit = () => {
     dispatch(fetchProfile());
   }, [dispatch]);
 
-  const resumeWarningMessage =
-    isApplyFlow && !profile?.resumeUrl
-      ? "We strongly recommend adding a resume to increase your chances of selection."
-      : null;
-
   const initialValues = {
     name: user?.name || "",
     headline: profile?.headline || "",
@@ -38,7 +33,7 @@ const ProfileEdit = () => {
     skills: Array.isArray(profile?.skills)
       ? profile.skills.join(", ")
       : profile?.skills || "",
-    github: profile?.links?.github || "",
+    portfolio: profile?.links?.portfolio || "",
     linkedin: profile?.links?.linkedin || "",
     resume: profile?.resumeUrl || "",
   };
@@ -49,6 +44,11 @@ const ProfileEdit = () => {
       .map((skill) => skill.trim())
       .filter(Boolean);
 
+  const resumeWarningMessage =
+    isApplyFlow && !profile?.resumeUrl
+      ? "We strongly recommend adding a resume to increase your chances of selection."
+      : null;
+
   const handleSubmit = async (values) => {
     const payload = {
       name: values.name,
@@ -58,7 +58,7 @@ const ProfileEdit = () => {
       bio: values.bio,
       skills: parseSkills(values.skills || ""),
       links: {
-        github: values.github,
+        portfolio: values.portfolio,
         linkedin: values.linkedin,
       },
       resumeUrl: values.resume,
@@ -67,7 +67,7 @@ const ProfileEdit = () => {
     try {
       const response = await dispatch(upsertProfile(payload)).unwrap();
       showSuccess(response?.message || "Profile updated");
-      // If in apply flow, don't navigate anywhere yet
+      // If in apply flow, stay on page for user to apply
       // If normal edit, navigate back
       if (!isApplyFlow) {
         navigate(-1);
@@ -86,7 +86,7 @@ const ProfileEdit = () => {
       bio: values.bio,
       skills: parseSkills(values.skills || ""),
       links: {
-        github: values.github,
+        portfolio: values.portfolio,
         linkedin: values.linkedin,
       },
       resumeUrl: values.resume,
@@ -110,7 +110,6 @@ const ProfileEdit = () => {
         navigate("/profile");
       }
     } catch (error) {
-      // Error is already shown in catch block, don't add extra toast
       showError(error || "Failed to update profile or apply to job");
     }
   };

@@ -13,10 +13,35 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs.jsx";
 import { Briefcase, UserRound } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchProfile } from "../features/profileSlice/profileSlice.jsx";
 
 const Profile = () => {
   const { user, profile, isLoading, appliedJobs } = useAuthProfile();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [sortBy, setSortBy] = useState("recent");
+  const [filterBy, setFilterBy] = useState("all");
+
+  useEffect(() => {
+    dispatch(
+      fetchProfile({
+        sort: sortBy,
+        page: 1,
+        limit: 25,
+        status: filterBy === "all" ? undefined : filterBy,
+      }),
+    );
+  }, [dispatch, sortBy, filterBy]);
+
+  const handleSortChange = useCallback((newSort) => {
+    setSortBy(newSort);
+  }, []);
+
+  const handleFilterChange = useCallback((newFilter) => {
+    setFilterBy(newFilter);
+  }, []);
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
@@ -66,7 +91,13 @@ const Profile = () => {
               </div>
             </TabsContent>
             <TabsContent value="applied">
-              <ProfileActivitySection appliedJobs={appliedJobs} />
+              <ProfileActivitySection
+                appliedJobs={appliedJobs}
+                sortBy={sortBy}
+                onSortChange={handleSortChange}
+                filterBy={filterBy}
+                onFilterChange={handleFilterChange}
+              />
             </TabsContent>
           </Tabs>
         )}

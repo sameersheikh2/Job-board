@@ -1,5 +1,6 @@
 // src/components/jobs/Pagination.jsx
 import React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
@@ -38,49 +39,48 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const visiblePages = getVisiblePages();
 
   return (
-    <nav className="mt-12 flex justify-center" aria-label="Pagination">
-      <ul className="flex items-center gap-1">
-        <li>
-          <button
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-4 py-2 text-sm font-medium rounded-md border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Previous
-          </button>
-        </li>
+    <nav className="flex justify-center" aria-label="Pagination">
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white"
+          aria-label="Previous page"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
 
-        {visiblePages.map((page, index) =>
-          page === "..." ? (
-            <li key={index}>
-              <span className="px-4 py-2 text-sm text-slate-500">...</span>
-            </li>
-          ) : (
-            <li key={index}>
+        <div className="flex items-center gap-1">
+          {visiblePages.map((page, index) =>
+            page === "..." ? (
+              <span key={index} className="px-2 py-2 text-sm text-slate-500">
+                ...
+              </span>
+            ) : (
               <button
+                key={index}
                 onClick={() => onPageChange(page)}
-                className={`px-4 py-2 text-sm font-medium rounded-md ${
+                className={`inline-flex h-10 min-w-10 items-center justify-center rounded-lg text-sm font-medium transition ${
                   page === currentPage
-                    ? "bg-[#0f172a] text-white border-[#0f172a]"
-                    : "border border-slate-300 hover:bg-slate-50"
+                    ? "bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-md"
+                    : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
                 }`}
               >
                 {page}
               </button>
-            </li>
-          ),
-        )}
+            ),
+          )}
+        </div>
 
-        <li>
-          <button
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 text-sm font-medium rounded-md border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
-        </li>
-      </ul>
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white"
+          aria-label="Next page"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
+      </div>
     </nav>
   );
 };

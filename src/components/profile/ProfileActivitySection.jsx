@@ -1,7 +1,13 @@
 import { Briefcase } from "lucide-react";
 import AppliedJobsList from "./AppliedJobsList.jsx";
 
-const ProfileActivitySection = ({ appliedJobs }) => {
+const ProfileActivitySection = ({
+  appliedJobs,
+  sortBy = "recent",
+  onSortChange,
+  filterBy = "all",
+  onFilterChange,
+}) => {
   const applications = appliedJobs || [];
 
   return (
@@ -17,7 +23,13 @@ const ProfileActivitySection = ({ appliedJobs }) => {
           </p>
         </div>
       </div>
-      <AppliedJobsList applications={applications} />
+      <AppliedJobsList
+        applications={applications}
+        sortBy={sortBy}
+        onSortChange={onSortChange}
+        filterBy={filterBy}
+        onFilterChange={onFilterChange}
+      />
     </section>
   );
 };

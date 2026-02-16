@@ -1,5 +1,5 @@
-import { Briefcase, ClipboardList, Users } from "lucide-react";
-import { useEffect, useMemo } from "react";
+import { Briefcase, ClipboardList } from "lucide-react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Tabs,
@@ -16,37 +16,67 @@ const RecruiterDashboard = () => {
   const { recruiterJobs, recruiterStatus, recruiterError } = useSelector(
     (state) => state.job,
   );
+  const [sortBy, setSortBy] = useState("newest");
+  const [filterBy, setFilterBy] = useState("all");
   const isLoading = recruiterStatus === "loading";
 
   useEffect(() => {
-    dispatch(fetchRecruiterJobs());
-  }, [dispatch]);
+    const params = {
+      sort: sortBy,
+      page: 1,
+      limit: 25,
+    };
+    if (filterBy !== "all") {
+      params.status = filterBy;
+    }
+    dispatch(fetchRecruiterJobs(params));
+  }, [dispatch, sortBy, filterBy]);
 
-  const highlights = useMemo(() => {
-    const safeJobs = Array.isArray(recruiterJobs) ? recruiterJobs : [];
-    const activeCount = safeJobs.filter(
-      (job) => (job.status || "ACTIVE").toUpperCase() === "ACTIVE",
-    ).length;
-    const applicantCount = safeJobs.reduce(
-      (total, job) => total + (job.applicantsCount ?? job.applicants ?? 0),
-      0,
-    );
+  const handleSortChange = useCallback((newSort) => {
+    setSortBy(newSort);
+  }, []);
 
-    return [
-      {
-        label: "Roles live",
-        value: activeCount,
-        caption: activeCount ? "Active roles in pipeline" : "No active roles",
-        icon: Briefcase,
-      },
-      {
-        label: "Applicants total",
-        value: applicantCount,
-        caption: applicantCount ? "Across all open roles" : "No applicants yet",
-        icon: Users,
-      },
-    ];
-  }, [recruiterJobs]);
+  const handleFilterChange = useCallback((newFilter) => {
+    setFilterBy(newFilter);
+  }, []);
+
+  // Get active filters for badge display
+  const activeFilters = useMemo(() => {
+    const filters = [];
+    if (filterBy !== "all") {
+      filters.push({
+        key: "status",
+        label: "Status",
+        value: filterBy,
+      });
+    }
+    if (sortBy !== "newest") {
+      const sortLabels = {
+        oldest: "Oldest first",
+        most_applicant: "Most applicable",
+        least_applicant: "Least applicable",
+      };
+      filters.push({
+        key: "sort",
+        label: "Sort",
+        value: sortLabels[sortBy] || sortBy,
+      });
+    }
+    return filters;
+  }, [filterBy, sortBy]);
+
+  const removeFilter = useCallback((filterKey) => {
+    if (filterKey === "status") {
+      setFilterBy("all");
+    } else if (filterKey === "sort") {
+      setSortBy("newest");
+    }
+  }, []);
+
+  const clearAllFilters = useCallback(() => {
+    setSortBy("newest");
+    setFilterBy("all");
+  }, []);
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
@@ -60,28 +90,6 @@ const RecruiterDashboard = () => {
         <p className="text-sm text-slate-600 sm:text-base">
           Launch roles, track applicants, and keep your pipeline moving.
         </p>
-      </div>
-
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        {highlights.map((item) => (
-          <div
-            key={item.label}
-            className="rounded-2xl border border-[#e6dccd] bg-white/90 p-5 shadow-sm"
-          >
-            <div className="flex items-center justify-between">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                {item.label}
-              </p>
-              <span className="rounded-full border border-[#efe6d8] bg-[#fbfaf8] p-2">
-                <item.icon className="h-4 w-4 text-slate-700" />
-              </span>
-            </div>
-            <p className="mt-3 text-2xl font-semibold text-slate-900">
-              {isLoading ? "—" : item.value}
-            </p>
-            <p className="text-xs text-slate-500">{item.caption}</p>
-          </div>
-        ))}
       </div>
 
       <Tabs defaultValue="create" className="mt-8 space-y-6">
@@ -109,6 +117,13 @@ const RecruiterDashboard = () => {
             jobs={recruiterJobs}
             isLoading={isLoading}
             error={recruiterError}
+            sortBy={sortBy}
+            onSortChange={handleSortChange}
+            filterBy={filterBy}
+            onFilterChange={handleFilterChange}
+            activeFilters={activeFilters}
+            onRemoveFilter={removeFilter}
+            onClearAllFilters={clearAllFilters}
           />
         </TabsContent>
       </Tabs>

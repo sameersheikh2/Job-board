@@ -40,11 +40,11 @@ const AppliedJobCard = ({ application }) => {
       {/* Company Info */}
       <div className="mb-4 space-y-2">
         <p className="flex items-center gap-2 text-sm text-slate-700">
-          <Building2 className="h-4 w-4 flex-shrink-0 text-slate-500" />
+          <Building2 className="h-4 w-4 shrink-0 text-slate-500" />
           <span className="font-medium">{job?.company || "N/A"}</span>
         </p>
         <p className="flex items-center gap-2 text-sm text-slate-600">
-          <MapPin className="h-4 w-4 flex-shrink-0 text-slate-500" />
+          <MapPin className="h-4 w-4 shrink-0 text-slate-500" />
           <span className="line-clamp-1">
             {job?.location || "Remote"} • {job?.locationType || "N/A"}
           </span>
