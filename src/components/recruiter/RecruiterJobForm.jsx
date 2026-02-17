@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../../components/ui/button.jsx";
 import { Spinner } from "../../../components/ui/spinner";
@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
-import { createJob } from "../../features/jobSlice/jobSlice.jsx";
+import { createJob, updateJob } from "../../features/jobSlice/jobSlice.jsx";
 import { recruiterJobFieldGroups } from "../../utils/recruiterJobFields.js";
 import { showError, showSuccess } from "../../utils/toast.js";
 const initialFormState = recruiterJobFieldGroups.reduce((acc, group) => {
@@ -24,11 +24,13 @@ const initialFormState = recruiterJobFieldGroups.reduce((acc, group) => {
   return acc;
 }, {});
 
-const RecruiterJobForm = () => {
+const RecruiterJobForm = ({ job = null, onSuccess, onCancel }) => {
   const [formValues, setFormValues] = useState(initialFormState);
   const dispatch = useDispatch();
-  const status = useSelector((state) => state.job?.createStatus);
-  const isLoading = status === "loading";
+  const { createStatus, updateStatus } = useSelector(
+    (state) => state.job || {},
+  );
+  const isLoading = createStatus === "loading" || updateStatus === "loading";
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -37,6 +39,33 @@ const RecruiterJobForm = () => {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    if (!job) return;
+    const mapped = { ...initialFormState };
+    const allowedFields = recruiterJobFieldGroups.flatMap((g) =>
+      g.fields.map((f) => f.id),
+    );
+    allowedFields.forEach((key) => {
+      const val = job[key];
+      if (val === undefined || val === null) return;
+      if (key === "deadline") {
+        // ensure date input gets YYYY-MM-DD
+        const date =
+          typeof val === "string"
+            ? val.split("T")[0]
+            : new Date(val).toISOString().split("T")[0];
+        mapped[key] = date;
+        return;
+      }
+      if (Array.isArray(val)) {
+        mapped[key] = val.join(", ");
+        return;
+      }
+      mapped[key] = String(val);
+    });
+    setFormValues(mapped);
+  }, [job]);
 
   const handleSelectChange = (fieldId, value) => {
     setFormValues((prev) => ({
@@ -49,14 +78,39 @@ const RecruiterJobForm = () => {
     event.preventDefault();
     if (isLoading) return;
     try {
-      const payload = {
-        ...formValues,
-        openings: formValues.openings ? Number(formValues.openings) : undefined,
-        description: formValues.description.trim(),
-      };
-      const response = await dispatch(createJob(payload)).unwrap();
-      showSuccess(response?.message || "Job published");
-      setFormValues(initialFormState);
+      // build payload only from allowed fields and skip empty strings
+      const allowedFields = recruiterJobFieldGroups.flatMap((g) =>
+        g.fields.map((f) => f.id),
+      );
+      const payload = {};
+      allowedFields.forEach((id) => {
+        const raw = formValues[id];
+        if (raw === undefined || raw === null) return;
+        const trimmed = typeof raw === "string" ? raw.trim() : raw;
+        if (trimmed === "") return;
+        if (id === "openings") {
+          payload[id] = Number(trimmed);
+        } else if (id === "deadline") {
+          payload[id] = trimmed; // ISO date string YYYY-MM-DD
+        } else {
+          payload[id] = trimmed;
+        }
+      });
+
+      if (job && (job._id || job.id)) {
+        const jobId = job._id || job.id;
+        const response = await dispatch(
+          updateJob({ jobId, updates: payload }),
+        ).unwrap();
+        showSuccess(response?.message || "Job updated");
+        setFormValues(initialFormState);
+        onSuccess?.();
+      } else {
+        const response = await dispatch(createJob(payload)).unwrap();
+        showSuccess(response?.message || "Job published");
+        setFormValues(initialFormState);
+        onSuccess?.();
+      }
     } catch (error) {
       showError(error || "Failed to publish job. Please try again.");
     }
@@ -142,20 +196,36 @@ const RecruiterJobForm = () => {
         <p className="text-xs text-slate-500">
           We’ll confirm once the job is published.
         </p>
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className="cursor-pointer rounded-full bg-[#0f172a] px-6 text-white hover:bg-[#0c1323] disabled:cursor-not-allowed disabled:opacity-70"
-        >
-          {isLoading ? (
-            <span className="inline-flex items-center gap-2">
-              <Spinner className="size-4 text-white" />
-              Publishing job...
-            </span>
-          ) : (
-            "Publish job"
+        <div className="flex items-center gap-3">
+          {job && (
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => {
+                setFormValues(initialFormState);
+                onCancel?.();
+              }}
+            >
+              Cancel
+            </Button>
           )}
-        </Button>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="cursor-pointer rounded-full bg-[#0f172a] px-6 text-white hover:bg-[#0c1323] disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isLoading ? (
+              <span className="inline-flex items-center gap-2">
+                <Spinner className="size-4 text-white" />
+                {job ? "Updating job..." : "Publishing job..."}
+              </span>
+            ) : job ? (
+              "Update job"
+            ) : (
+              "Publish job"
+            )}
+          </Button>
+        </div>
       </div>
     </form>
   );

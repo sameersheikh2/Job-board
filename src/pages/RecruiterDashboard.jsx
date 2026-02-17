@@ -18,6 +18,8 @@ const RecruiterDashboard = () => {
   );
   const [sortBy, setSortBy] = useState("newest");
   const [filterBy, setFilterBy] = useState("all");
+  const [activeTab, setActiveTab] = useState("create");
+  const [selectedJob, setSelectedJob] = useState(null);
   const isLoading = recruiterStatus === "loading";
 
   useEffect(() => {
@@ -38,6 +40,11 @@ const RecruiterDashboard = () => {
 
   const handleFilterChange = useCallback((newFilter) => {
     setFilterBy(newFilter);
+  }, []);
+
+  const jobEditHandler = useCallback((job) => {
+    setSelectedJob(job);
+    setActiveTab("create");
   }, []);
 
   // Get active filters for badge display
@@ -92,7 +99,11 @@ const RecruiterDashboard = () => {
         </p>
       </div>
 
-      <Tabs defaultValue="create" className="mt-8 space-y-6">
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v)}
+        className="mt-8 space-y-6"
+      >
         <TabsList className="h-11 w-full gap-1 rounded-lg border border-slate-200 bg-slate-100/80 p-1 shadow-sm sm:w-fit">
           <TabsTrigger
             value="create"
@@ -110,13 +121,23 @@ const RecruiterDashboard = () => {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="create">
-          <RecruiterJobForm />
+          <RecruiterJobForm
+            job={selectedJob}
+            onSuccess={() => {
+              setSelectedJob(null);
+              dispatch(
+                fetchRecruiterJobs({ sort: sortBy, page: 1, limit: 25 }),
+              );
+            }}
+            onCancel={() => setSelectedJob(null)}
+          />
         </TabsContent>
         <TabsContent value="jobs">
           <RecruiterJobsList
             jobs={recruiterJobs}
             isLoading={isLoading}
             error={recruiterError}
+            onEdit={jobEditHandler}
             sortBy={sortBy}
             onSortChange={handleSortChange}
             filterBy={filterBy}
