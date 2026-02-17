@@ -5,7 +5,7 @@ import { FormInput } from "../../../components/ui/form-field";
 const SearchBar = ({
   value,
   onChange,
-  placeholder = "Role, company, location or skill",
+  placeholder = "Role, company, or skill",
 }) => {
   const [inputValue, setInputValue] = useState(value || "");
 

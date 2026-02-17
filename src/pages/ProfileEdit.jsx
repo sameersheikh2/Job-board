@@ -1,28 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ProfileDetailsForm from "../components/profile/ProfileDetailsForm.jsx";
-import {
-  fetchProfile,
-  upsertProfile,
-} from "../features/profileSlice/profileSlice.jsx";
-import { applyToJob } from "../features/applicationSlice/applicationSlice.jsx";
+import { upsertProfile } from "../features/profileSlice/profileSlice.jsx";
 import { showError, showSuccess } from "../utils/toast.js";
 
 const ProfileEdit = () => {
   const user = useSelector((state) => state.auth.user);
-  const { profile, status } = useSelector((state) => state.profile);
-  const applicationStatus = useSelector((state) => state.application?.status);
-  const isLoading = status === "loading" || applicationStatus === "loading";
+  const profile = useSelector((state) => state.profile?.profile);
+  const status = useSelector((state) => state.profile?.status);
+  const isLoading = status === "loading";
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  const isApplyFlow = location.state?.isApplyFlow || false;
-  const jobId = location.state?.jobId;
-
-  useEffect(() => {
-    dispatch(fetchProfile());
-  }, [dispatch]);
 
   const initialValues = {
     name: user?.name || "",
@@ -44,11 +32,6 @@ const ProfileEdit = () => {
       .map((skill) => skill.trim())
       .filter(Boolean);
 
-  const resumeWarningMessage =
-    isApplyFlow && !profile?.resumeUrl
-      ? "We strongly recommend adding a resume to increase your chances of selection."
-      : null;
-
   const handleSubmit = async (values) => {
     const payload = {
       name: values.name,
@@ -67,56 +50,10 @@ const ProfileEdit = () => {
     try {
       const response = await dispatch(upsertProfile(payload)).unwrap();
       showSuccess(response?.message || "Profile updated");
-      // If in apply flow, stay on page for user to apply
-      // If normal edit, navigate back
-      if (!isApplyFlow) {
-        navigate(-1);
-      }
+      navigate("/profile");
     } catch (error) {
       showError(error || "Failed to update profile");
     }
-  };
-
-  const handleApplyAndSave = async (values) => {
-    const payload = {
-      name: values.name,
-      headline: values.headline,
-      location: values.location,
-      experience: values.experience,
-      bio: values.bio,
-      skills: parseSkills(values.skills || ""),
-      links: {
-        portfolio: values.portfolio,
-        linkedin: values.linkedin,
-      },
-      resumeUrl: values.resume,
-    };
-
-    try {
-      // First save profile
-      const profileResponse = await dispatch(upsertProfile(payload)).unwrap();
-      showSuccess(profileResponse?.message || "Profile updated");
-
-      // Then apply to job
-      const applicationResponse = await dispatch(applyToJob(jobId)).unwrap();
-      showSuccess(
-        applicationResponse?.message || "Application submitted successfully",
-      );
-
-      // Navigate after both operations succeed
-      if (jobId) {
-        navigate(`/jobs/${jobId}`);
-      } else {
-        navigate("/profile");
-      }
-    } catch (error) {
-      showError(error || "Failed to update profile or apply to job");
-    }
-  };
-
-  const handleCancel = () => {
-    // Always go back in history to preserve correct back button behavior
-    navigate(-1);
   };
 
   return (
@@ -132,11 +69,6 @@ const ProfileEdit = () => {
         isLoading={isLoading}
         footerNote="Changes will be reflected on your profile once saved."
         onSubmit={handleSubmit}
-        onCancel={handleCancel}
-        showApplyButton={isApplyFlow}
-        applyLabel="Save and Apply"
-        onApplyAndSave={handleApplyAndSave}
-        resumeWarningMessage={resumeWarningMessage}
       />
     </section>
   );
