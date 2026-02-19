@@ -23,7 +23,6 @@ app.use(express.json());
 
 app.use(cors({ origin: config.frontendUrl, credentials: false }));
 app.use(apiLimiter);
-console.log("CORS configured for frontend URL:", config.frontendUrl);
 // Health check
 app.get("/api/health", (req, res) =>
   res.status(200).json({ success: true, message: "healthy" }),

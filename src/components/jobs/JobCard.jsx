@@ -7,7 +7,7 @@ import {
   Users,
   ArrowRight,
   Star,
-  DollarSign,
+  IndianRupee,
 } from "lucide-react";
 import { formatExperience } from "../../utils/experience.js";
 import {
@@ -129,7 +129,7 @@ const JobCard = ({ job }) => {
 
           {formatSalary(job.salaryAmount, job.salaryType) && (
             <div className="flex items-center gap-2 rounded-lg bg-slate-50 px-2.5 py-1.5 sm:px-3 sm:py-2 transition-colors group-hover:bg-slate-100 whitespace-nowrap text-xs">
-              <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 shrink-0" />
+              <IndianRupee className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 shrink-0" />
               <span className="text-slate-700 font-medium">
                 {formatSalary(job.salaryAmount, job.salaryType)}
               </span>

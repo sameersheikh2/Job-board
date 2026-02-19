@@ -5,7 +5,7 @@ import {
   Briefcase,
   MapPin,
   Users,
-  DollarSign,
+  IndianRupee,
 } from "lucide-react";
 import { formatExperience } from "../../utils/experience.js";
 import {
@@ -114,7 +114,7 @@ const JobDetailsContent = ({
           </div>
           {formatSalary(jobDetails.salaryAmount, jobDetails.salaryType) && (
             <div className="flex items-center gap-2 rounded-2xl border border-[#f0e7da] bg-[#faf7f2] px-3 py-2 text-sm font-medium text-emerald-700 sm:col-span-2">
-              <DollarSign className="h-4 w-4" />
+              <IndianRupee className="h-4 w-4" />
               {formatSalary(jobDetails.salaryAmount, jobDetails.salaryType)}
             </div>
           )}
