@@ -98,11 +98,29 @@ export const recruiterJobFieldGroups = [
     columns: "sm:grid-cols-2",
     fields: [
       {
-        id: "salary",
-        label: "Salary range",
-        placeholder: "18 - 26 LPA",
-        maxLength: 30,
+        id: "salaryType",
+        label: "Salary Type",
+        type: "select",
+        placeholder: "Select salary type",
+        options: [
+          { value: "LPA", label: "LPA (Lakhs Per Annum)" },
+          { value: "MONTHLY", label: "Monthly Salary" },
+        ],
       },
+      {
+        id: "salaryAmount",
+        label: "Salary Amount",
+        type: "number",
+        min: 100000,
+        max: 10000000,
+        step: 10000,
+        placeholder: "Enter salary amount",
+      },
+    ],
+  },
+  {
+    columns: "sm:grid-cols-2",
+    fields: [
       {
         id: "deadline",
         label: "Application deadline",
@@ -110,11 +128,6 @@ export const recruiterJobFieldGroups = [
         required: true,
         min: today,
       },
-    ],
-  },
-  {
-    columns: "sm:grid-cols-2",
-    fields: [
       {
         id: "skills",
         label: "Key skills",
@@ -123,6 +136,11 @@ export const recruiterJobFieldGroups = [
         minLength: 2,
         required: true,
       },
+    ],
+  },
+  {
+    columns: "sm:grid-cols-1",
+    fields: [
       {
         id: "hiring",
         label: "Hiring manager",

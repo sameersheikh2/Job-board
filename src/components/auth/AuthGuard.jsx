@@ -52,9 +52,9 @@ const AuthGuard = () => {
 
   if (isLoggedIn && !isVerified && !isProfileEditRoute && !isOnboardingRoute) {
     if (user?.role === "recruiter") {
-      if (!isRecruiterDashboardRoute) {
-        return <Navigate to="/recruiter-dashboard" replace />;
-      }
+      // if (!isRecruiterDashboardRoute) {
+      //   return <Navigate to="/recruiter-dashboard" replace />;
+      // }
       return <Outlet />;
     }
     return <Navigate to="/profile-onboarding" replace />;

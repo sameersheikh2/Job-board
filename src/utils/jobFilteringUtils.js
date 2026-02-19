@@ -14,9 +14,9 @@ export const filterRecruiterJobs = (jobs, status = "all") => {
 
 export const getRecruiterJobStats = (jobs) => {
   return {
-    ACTIVE: jobs.filter((job) => (job.status || "ACTIVE") === "ACTIVE").length,
-    DRAFT: jobs.filter((job) => (job.status || "") === "DRAFT").length,
-    CLOSED: jobs.filter((job) => (job.status || "") === "CLOSED").length,
+    active: jobs.filter((job) => (job.status || "ACTIVE") === "ACTIVE").length,
+    draft: jobs.filter((job) => (job.status || "") === "DRAFT").length,
+    closed: jobs.filter((job) => (job.status || "") === "CLOSED").length,
     totalApplicants: jobs.reduce(
       (total, job) => total + (job.applicantsCount ?? job.applicants ?? 0),
       0,

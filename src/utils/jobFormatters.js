@@ -16,4 +16,18 @@ const formatDate = (value) =>
       })
     : "—";
 
-export { formatDate, formatStatus, statusStyles };
+const formatSalary = (salaryAmount, salaryType) => {
+  if (!salaryAmount || !salaryType) return null;
+
+  const formattedAmount = new Intl.NumberFormat("en-IN").format(salaryAmount);
+
+  if (salaryType === "LPA") {
+    return `${formattedAmount} LPA`;
+  } else if (salaryType === "MONTHLY") {
+    return `${formattedAmount}/month`;
+  }
+
+  return null;
+};
+
+export { formatDate, formatStatus, statusStyles, formatSalary };

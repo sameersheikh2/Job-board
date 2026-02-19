@@ -1,9 +1,26 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, BarChart3, Briefcase, MapPin, Users } from "lucide-react";
+import {
+  ArrowLeft,
+  BarChart3,
+  Briefcase,
+  MapPin,
+  Users,
+  DollarSign,
+} from "lucide-react";
 import { formatExperience } from "../../utils/experience.js";
-import { formatStatus, statusStyles } from "../../utils/jobFormatters.js";
+import {
+  formatStatus,
+  statusStyles,
+  formatSalary,
+} from "../../utils/jobFormatters.js";
 
-const JobDetailsContent = ({ jobDetails, applyCta, onApply, isDisabled }) => {
+const JobDetailsContent = ({
+  jobDetails,
+  applyCta,
+  onApply,
+  isDisabled,
+  isRecruiter,
+}) => {
   const statusKey = (jobDetails.status || "ACTIVE").toUpperCase();
   const employmentLabel = jobDetails.employment
     ? formatStatus(jobDetails.employment.replace(/-/g, " "))
@@ -57,12 +74,14 @@ const JobDetailsContent = ({ jobDetails, applyCta, onApply, isDisabled }) => {
                   {applyCta.label}
                 </Link>
               )}
-              <Link
-                to="/jobs"
-                className="text-xs font-semibold text-slate-600 hover:text-slate-900"
-              >
-                Save for later
-              </Link>
+              {!isRecruiter && (
+                <Link
+                  to="/jobs"
+                  className="text-xs font-semibold text-slate-600 hover:text-slate-900"
+                >
+                  Save for later
+                </Link>
+              )}
             </div>
           </div>
           <span
@@ -93,6 +112,12 @@ const JobDetailsContent = ({ jobDetails, applyCta, onApply, isDisabled }) => {
             <Users className="h-4 w-4" />
             {jobDetails.openings ?? 0} openings
           </div>
+          {formatSalary(jobDetails.salaryAmount, jobDetails.salaryType) && (
+            <div className="flex items-center gap-2 rounded-2xl border border-[#f0e7da] bg-[#faf7f2] px-3 py-2 text-sm font-medium text-emerald-700 sm:col-span-2">
+              <DollarSign className="h-4 w-4" />
+              {formatSalary(jobDetails.salaryAmount, jobDetails.salaryType)}
+            </div>
+          )}
         </div>
 
         <div className="mt-6 border-t border-[#f0e7da] pt-6">

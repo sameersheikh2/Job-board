@@ -114,12 +114,14 @@ const JobDetails = () => {
           applyCta={applyCta}
           onApply={handleApply}
           isDisabled={applyCta.disabled}
+          isRecruiter={user?.role === "recruiter"}
         />
         <JobDetailsSidebar
           jobDetails={jobDetails}
           applyCta={applyCta}
           onApply={handleApply}
           isDisabled={applyCta.disabled}
+          isRecruiter={user?.role === "recruiter"}
         />
       </div>
     </section>

@@ -10,41 +10,62 @@ import {
 import RecruiterJobForm from "../components/recruiter/RecruiterJobForm.jsx";
 import RecruiterJobsList from "../components/recruiter/RecruiterJobsList.jsx";
 import { fetchRecruiterJobs } from "../features/jobSlice/jobSlice.jsx";
+import ConfirmationDialog from "../utils/ConfirmationDialog.jsx";
 
 const RecruiterDashboard = () => {
   const dispatch = useDispatch();
-  const { recruiterJobs, recruiterStatus, recruiterError } = useSelector(
-    (state) => state.job,
-  );
+  const {
+    recruiterJobs,
+    recruiterStatus,
+    recruiterError,
+    recruiterTotalJobs,
+    recruiterNumOfPages,
+  } = useSelector((state) => state.job);
   const [sortBy, setSortBy] = useState("newest");
   const [filterBy, setFilterBy] = useState("all");
-  const [activeTab, setActiveTab] = useState("create");
+  const [activeTab, setActiveTab] = useState("jobs");
   const [selectedJob, setSelectedJob] = useState(null);
+  const [jobToDelete, setJobToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const isLoading = recruiterStatus === "loading";
 
   useEffect(() => {
     const params = {
       sort: sortBy,
-      page: 1,
+      page: currentPage,
       limit: 25,
     };
     if (filterBy !== "all") {
       params.status = filterBy;
     }
     dispatch(fetchRecruiterJobs(params));
-  }, [dispatch, sortBy, filterBy]);
+  }, [dispatch, sortBy, filterBy, currentPage]);
 
   const handleSortChange = useCallback((newSort) => {
     setSortBy(newSort);
+    setCurrentPage(1);
   }, []);
 
   const handleFilterChange = useCallback((newFilter) => {
     setFilterBy(newFilter);
+    setCurrentPage(1);
+  }, []);
+
+  const handlePageChange = useCallback((newPage) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const jobEditHandler = useCallback((job) => {
     setSelectedJob(job);
     setActiveTab("create");
+  }, []);
+
+  const jobDeleteHandler = useCallback((job) => {
+    setJobToDelete(job);
+  }, []);
+  const closeDeleteDialog = useCallback(() => {
+    setJobToDelete(null);
   }, []);
 
   // Get active filters for badge display
@@ -78,11 +99,13 @@ const RecruiterDashboard = () => {
     } else if (filterKey === "sort") {
       setSortBy("newest");
     }
+    setCurrentPage(1);
   }, []);
 
   const clearAllFilters = useCallback(() => {
     setSortBy("newest");
     setFilterBy("all");
+    setCurrentPage(1);
   }, []);
 
   return (
@@ -138,6 +161,7 @@ const RecruiterDashboard = () => {
             isLoading={isLoading}
             error={recruiterError}
             onEdit={jobEditHandler}
+            onDelete={jobDeleteHandler}
             sortBy={sortBy}
             onSortChange={handleSortChange}
             filterBy={filterBy}
@@ -145,9 +169,23 @@ const RecruiterDashboard = () => {
             activeFilters={activeFilters}
             onRemoveFilter={removeFilter}
             onClearAllFilters={clearAllFilters}
+            currentPage={currentPage}
+            totalPages={recruiterNumOfPages}
+            onPageChange={handlePageChange}
+            totalJobs={recruiterTotalJobs}
           />
         </TabsContent>
       </Tabs>
+      <ConfirmationDialog
+        open={!!jobToDelete} // true when we have a job
+        onOpenChange={(open) => !open && closeDeleteDialog()}
+        title="Delete job"
+        description={`Are you sure you want to delete "${jobToDelete?.title + " Job" || "this job"}"? This action cannot be undone.`}
+        onConfirm={() => {
+          closeDeleteDialog();
+        }}
+        onCancel={closeDeleteDialog}
+      />
     </section>
   );
 };

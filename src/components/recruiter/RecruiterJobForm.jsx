@@ -90,12 +90,30 @@ const RecruiterJobForm = ({ job = null, onSuccess, onCancel }) => {
         if (trimmed === "") return;
         if (id === "openings") {
           payload[id] = Number(trimmed);
+        } else if (id === "salaryAmount") {
+          const amount = Number(trimmed);
+          if (isNaN(amount) || amount <= 0) {
+            showError("Salary amount must be a valid positive number");
+            return;
+          }
+          payload[id] = amount;
         } else if (id === "deadline") {
           payload[id] = trimmed; // ISO date string YYYY-MM-DD
         } else {
           payload[id] = trimmed;
         }
       });
+
+      // Validate salary consistency
+      if (
+        (payload.salaryType && !payload.salaryAmount) ||
+        (!payload.salaryType && payload.salaryAmount)
+      ) {
+        showError(
+          "Please provide both salary type and amount, or leave both empty",
+        );
+        return;
+      }
 
       if (job && (job._id || job.id)) {
         const jobId = job._id || job.id;

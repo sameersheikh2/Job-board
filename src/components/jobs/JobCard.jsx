@@ -7,12 +7,14 @@ import {
   Users,
   ArrowRight,
   Star,
+  DollarSign,
 } from "lucide-react";
 import { formatExperience } from "../../utils/experience.js";
 import {
   formatDate,
   formatStatus,
   statusStyles,
+  formatSalary,
 } from "../../utils/jobFormatters.js";
 import { useSelector } from "react-redux";
 import { showError } from "../../utils/toast.js";
@@ -31,7 +33,6 @@ const JobCard = ({ job }) => {
   const experienceDisplay = formatExperience(job.experience);
 
   const handleApply = () => {
-    console.log(hasApplied);
     if (hasApplied) {
       showError(`You have already applied to this job (${applicationStatus}).`);
       return;
@@ -125,6 +126,15 @@ const JobCard = ({ job }) => {
               {job.openings ?? 1} opening{job.openings !== 1 ? "s" : ""}
             </span>
           </div>
+
+          {formatSalary(job.salaryAmount, job.salaryType) && (
+            <div className="flex items-center gap-2 rounded-lg bg-slate-50 px-2.5 py-1.5 sm:px-3 sm:py-2 transition-colors group-hover:bg-slate-100 whitespace-nowrap text-xs">
+              <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400 shrink-0" />
+              <span className="text-slate-700 font-medium">
+                {formatSalary(job.salaryAmount, job.salaryType)}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Description preview (if available) */}

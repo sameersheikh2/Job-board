@@ -22,7 +22,6 @@ const JobsFilters = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -53,7 +52,6 @@ const JobsFilters = () => {
               />
               <button
                 type="button"
-                onClick={() => console.log("Search clicked")}
                 aria-label="Run search"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#0f172a] text-white shadow-sm transition hover:bg-[#0c1323]"
               >
