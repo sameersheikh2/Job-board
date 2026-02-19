@@ -13,6 +13,8 @@ dist-ssr
 *.local
 *.md
 
+seed-jobs.js
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

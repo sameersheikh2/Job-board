@@ -25,7 +25,12 @@ const UserSchema = new mongoose.Schema({
       message: "Password is not strong enough",
     },
   },
-  role: { type: String, enum: ["job_seeker", "recruiter"], required: true },
+  role: {
+    type: String,
+    enum: ["job_seeker", "recruiter"],
+    required: true,
+    message: "Role must be either 'job_seeker' or 'recruiter'",
+  },
   isVerified: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
