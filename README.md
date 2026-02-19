@@ -10,7 +10,6 @@ Full-stack job board with recruiter + job seeker flows, modern UI, and a clean b
 
 **Core Features (Priority)**
 
-- Public job listing page (no authentication required) for landing page
 - Email notifications (password reset, application status updates, job alerts)
 - Email verification on signup
 - Password reset functionality
