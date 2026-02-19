@@ -63,16 +63,16 @@ Full-stack job board with recruiter + job seeker flows, modern UI, and a clean b
 - Filter applied jobs by status
 - Sort applied jobs by recent/oldest
 - Application count and statistics
-- Job details viewable from applied jobs
+- Job details viewable from applied jobs 
 
 ### Recruiter Features
 
 - Recruiter dashboard with job creation form
 - List of posted jobs with filters and sorting
-- Job status management (ACTIVE, DRAFT, CLOSED)
+- Job status management (ACTIVE, DRAFT, CLOSED) [still need to impliment]
 - Job statistics (total posted, active, draft, closed)
 - Sort recruiter jobs by: newest, oldest, most applicants, least applicants
-- View applicants for each job
+- View applicants for each job [still need to impliment]
 
 ### Frontend Architecture
 
