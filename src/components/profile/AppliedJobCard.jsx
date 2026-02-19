@@ -9,9 +9,10 @@ const statusStyles = {
 };
 
 const AppliedJobCard = ({ application }) => {
+  const navigate = useNavigate();
+
   if (!application || !application.job) return null;
 
-  const navigate = useNavigate();
   const { job, status, appliedAt } = application;
   const appliedDate = new Date(appliedAt).toLocaleDateString("en-US", {
     year: "numeric",
