@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import store from "../store/store";
-import { logout } from "../redux/authSlice";
+import { logout } from "../features/authSlice/authSlice";
 import { showError } from "../utils/toast";
 
 export const apiClient = axios.create({
