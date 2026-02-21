@@ -80,6 +80,7 @@ const LoginForm = () => {
             id="email"
             name="email"
             type="email"
+            autoComplete="email"
             placeholder="you@example.com"
             onChange={(e) =>
               setUserData({ ...userData, email: e.target.value })

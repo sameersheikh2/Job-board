@@ -95,6 +95,7 @@ const RegisterForm = () => {
               id="firstName"
               name="firstName"
               type="text"
+              autoComplete="given-name"
               onChange={(e) =>
                 setUserData({ ...userData, firstName: e.target.value })
               }
@@ -115,6 +116,7 @@ const RegisterForm = () => {
               id="lastName"
               name="lastName"
               type="text"
+              autoComplete="family-name"
               onChange={(e) =>
                 setUserData({ ...userData, lastName: e.target.value })
               }
@@ -136,6 +138,7 @@ const RegisterForm = () => {
             id="email"
             name="email"
             type="email"
+            autoComplete="email"
             placeholder="you@example.com"
             onChange={(e) =>
               setUserData({ ...userData, email: e.target.value })
