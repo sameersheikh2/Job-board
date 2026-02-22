@@ -21,7 +21,7 @@ const App = () => {
           <span>⚡</span>
           <span>
             Free tier demo • Backend may take <strong>30–60 seconds</strong> to
-            wake up after inactivity
+            wake up after inactivity or initially on first load.
           </span>
 
           <a
