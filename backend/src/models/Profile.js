@@ -12,6 +12,12 @@ const ProfileSchema = new mongoose.Schema(
     location: { type: String, trim: true },
     bio: { type: String, trim: true, maxlength: 600 },
     skills: [{ type: String, trim: true }],
+    experience: {
+      type: String,
+      trim: true,
+      enum: ["Fresher", "Junior", "Mid", "Senior", "Lead"],
+      default: "Fresher",
+    },
     links: {
       github: { type: String, trim: true },
       linkedin: { type: String, trim: true },

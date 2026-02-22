@@ -54,6 +54,7 @@ class AuthService {
     }
     const token = this.generateToken(user);
     // Remove password before returning
+    
     user.password = undefined;
     return { user, token };
   }

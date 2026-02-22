@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiClient } from "../../api/apiClient.jsx";
+import { apiClient } from "../../api/apiClient";
 
 let storedUser = null;
 try {
@@ -8,12 +8,9 @@ try {
   storedUser = null;
 }
 
-const storedToken = localStorage.getItem("token") || "";
-
 const initialState = {
   user: storedUser,
-  token: storedToken,
-  isLoggedIn: Boolean(storedToken),
+  isLoggedIn: Boolean(storedUser),
   isVerified: storedUser?.isVerified ?? false,
   status: "idle",
   error: null,
@@ -56,14 +53,14 @@ const authSlice = createSlice({
       state.isVerified = action.payload?.isVerified ?? state.isVerified;
       if (action.payload) {
         localStorage.setItem("user", JSON.stringify(action.payload));
+      } else {
+        localStorage.removeItem("user");
       }
     },
     logout(state) {
       state.user = null;
-      state.token = "";
       state.isLoggedIn = false;
       state.isVerified = false;
-      localStorage.removeItem("token");
       localStorage.removeItem("user");
     },
   },
@@ -72,6 +69,7 @@ const authSlice = createSlice({
       state.status = "loading";
       state.error = null;
     };
+
     const handleRejected = (state, action) => {
       state.status = "failed";
       state.error = action.payload || action.error?.message;
@@ -80,29 +78,24 @@ const authSlice = createSlice({
     builder
       .addCase(loginUser.pending, handlePending)
       .addCase(loginUser.fulfilled, (state, action) => {
-        const data = action.payload?.data;
+        const data = action.payload?.data || action.payload;
         state.status = "succeeded";
         state.user = data?.user || null;
-        state.token = data?.token || "";
-        state.isLoggedIn = Boolean(data?.token);
+        state.isLoggedIn = Boolean(data?.user);
         state.isVerified = data?.user?.isVerified ?? false;
-        if (state.token) {
-          localStorage.setItem("token", state.token);
-        }
+
         if (state.user) {
           localStorage.setItem("user", JSON.stringify(state.user));
         }
       })
-      .addCase(loginUser.rejected, handleRejected);
-    builder
+      .addCase(loginUser.rejected, handleRejected)
+
       .addCase(registerUser.pending, handlePending)
       .addCase(registerUser.fulfilled, (state) => {
         state.status = "succeeded";
         state.user = null;
-        state.token = "";
         state.isLoggedIn = false;
         state.isVerified = false;
-        localStorage.removeItem("token");
         localStorage.removeItem("user");
       })
       .addCase(registerUser.rejected, handleRejected);

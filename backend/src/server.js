@@ -15,13 +15,16 @@ const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const applicationRoutes = require("./routes/applicationRoutes");
+const cookieParser = require("cookie-parser");
+
+app.use(cookieParser());
 
 dotenv.config();
 app.use(helmet());
 
 app.use(express.json());
 
-app.use(cors({ origin: config.frontendUrl, credentials: false }));
+app.use(cors({ origin: config.frontendUrl, credentials: true }));
 app.use(apiLimiter);
 // Health check
 app.get("/api/health", (req, res) =>

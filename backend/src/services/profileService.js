@@ -27,7 +27,7 @@ class ProfileService {
     const userUpdates = { isVerified: true };
     if (name) userUpdates.name = name;
     const user = await userRepository.updateById(userId, userUpdates, {
-      new: true,
+      returnDocument: "after",
     });
     if (!user) {
       const err = new Error("User not found");

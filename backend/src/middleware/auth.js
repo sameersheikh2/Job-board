@@ -8,10 +8,7 @@ const { logger } = require("../utils/logger");
 
 function auth(req, res, next) {
   try {
-    const header = req.headers.authorization || "";
-    const token = header.startsWith("Bearer ")
-      ? header.replace("Bearer ", "")
-      : null;
+    const token = req.cookies.token;
     if (!token) return errorResponse(res, "Unauthorized", 401);
 
     const decoded = jwt.verify(token, config.jwtSecret);
@@ -39,10 +36,7 @@ function jobSeekerOnly(req, res, next) {
 
 function optionalAuth(req, res, next) {
   try {
-    const header = req.headers.authorization || "";
-    const token = header.startsWith("Bearer ")
-      ? header.replace("Bearer ", "")
-      : null;
+    const token = req.cookies.token;
     if (token) {
       const decoded = jwt.verify(token, config.jwtSecret);
       req.user = { id: decoded.id, role: decoded.role };
