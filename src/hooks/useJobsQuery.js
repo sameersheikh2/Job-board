@@ -109,7 +109,8 @@ export const useJobsQuery = () => {
       }
     });
 
-    dispatch(fetchJobs(paramsForApi));
+    console.log("Fetching jobs with:", paramsForApi);
+    dispatch(fetchJobs(paramsForApi)); // call Redux thunk to get jobs
   }, [dispatch, getCurrentParams]);
 
   // Remove one filter (set it back to default)

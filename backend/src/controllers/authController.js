@@ -20,7 +20,7 @@ class AuthController {
       res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
         maxAge: 1000 * 60 * 60 * 24, // 1 days
       });
       return successResponse(res, result, "Login successful");
