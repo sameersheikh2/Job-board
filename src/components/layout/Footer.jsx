@@ -1,3 +1,4 @@
+import { showComingSoon } from "../../utils/comingSoon.js";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -11,16 +12,32 @@ const Footer = () => {
           </p>
         </div>
         <div className="flex flex-wrap gap-4 text-sm text-slate-200">
-          <Link to="#" className="transition hover:text-white">
+          <Link
+            onClick={showComingSoon}
+            to="#"
+            className="transition hover:text-white"
+          >
             Privacy
           </Link>
-          <Link to="#" className="transition hover:text-white">
+          <Link
+            onClick={showComingSoon}
+            to="#"
+            className="transition hover:text-white"
+          >
             Terms
           </Link>
-          <Link to="#" className="transition hover:text-white">
+          <Link
+            onClick={showComingSoon}
+            to="#"
+            className="transition hover:text-white"
+          >
             Contact
           </Link>
-          <Link to="#" className="transition hover:text-white">
+          <Link
+            onClick={showComingSoon}
+            to="#"
+            className="transition hover:text-white"
+          >
             Careers
           </Link>
         </div>

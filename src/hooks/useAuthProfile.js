@@ -9,12 +9,11 @@ const useAuthProfile = () => {
   );
   const {
     profile,
-    applications,
-    status: profileStatus,
+    profileStatus,
     error: profileError,
   } = useSelector((state) => state.profile || {});
   const isAuthenticated = Boolean(isLoggedIn);
-  const isLoading = status === "loading" || profileStatus === "loading";
+  const isLoading = profileStatus === "loading";
 
   useEffect(() => {
     if (isLoggedIn && user?.role === "job_seeker") {
@@ -30,7 +29,6 @@ const useAuthProfile = () => {
     isLoading,
     user,
     profile,
-    appliedJobs: applications || [],
   };
 };
 

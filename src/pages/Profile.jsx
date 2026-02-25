@@ -14,26 +14,40 @@ import {
 } from "../../components/ui/tabs.jsx";
 import { Briefcase, UserRound } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchProfile } from "../features/profileSlice/profileSlice.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProfile,
+  fetchApplications,
+} from "../features/profileSlice/profileSlice.jsx";
 
 const Profile = () => {
-  const { user, profile, isLoading, appliedJobs } = useAuthProfile();
+  const { user, profile, isLoading } = useAuthProfile();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const appliedJobs = useSelector((state) => state.profile?.applications || []);
+  const applicationsLoading = useSelector(
+    (state) => state.profile?.applicationsStatus === "loading",
+  );
+
+  const [activeTab, setActiveTab] = useState("profile");
   const [sortBy, setSortBy] = useState("recent");
   const [filterBy, setFilterBy] = useState("all");
 
+  // Fetch profile data on mount
+  // useEffect(() => {
+  //   dispatch(fetchProfile());
+  // }, [dispatch]);
+
   useEffect(() => {
-    dispatch(
-      fetchProfile({
-        sort: sortBy,
-        page: 1,
-        limit: 25,
-        status: filterBy === "all" ? undefined : filterBy,
-      }),
-    );
-  }, [dispatch, sortBy, filterBy]);
+    if (activeTab === "applied") {
+      dispatch(
+        fetchApplications({
+          limit: 100,
+          page: 1,
+        }),
+      );
+    }
+  }, [dispatch, activeTab]);
 
   const handleSortChange = useCallback((newSort) => {
     setSortBy(newSort);
@@ -58,10 +72,14 @@ const Profile = () => {
       </div>
 
       <div className="mt-8">
-        {isLoading ? (
+        {isLoading && activeTab === "profile" ? (
           <ProfileSkeleton />
         ) : (
-          <Tabs defaultValue="profile" className="space-y-6">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="space-y-6"
+          >
             <TabsList className="h-11 w-full gap-1 rounded-lg border border-slate-200 bg-slate-100/80 p-1 shadow-sm sm:w-fit">
               <TabsTrigger
                 value="profile"
@@ -91,13 +109,17 @@ const Profile = () => {
               </div>
             </TabsContent>
             <TabsContent value="applied">
-              <ProfileActivitySection
-                appliedJobs={appliedJobs}
-                sortBy={sortBy}
-                onSortChange={handleSortChange}
-                filterBy={filterBy}
-                onFilterChange={handleFilterChange}
-              />
+              {applicationsLoading ? (
+                <ProfileSkeleton />
+              ) : (
+                <ProfileActivitySection
+                  appliedJobs={appliedJobs}
+                  sortBy={sortBy}
+                  onSortChange={handleSortChange}
+                  filterBy={filterBy}
+                  onFilterChange={handleFilterChange}
+                />
+              )}
             </TabsContent>
           </Tabs>
         )}

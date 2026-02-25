@@ -29,11 +29,24 @@ class ApplicationRepository {
    * @param {Object} filters
    * @param {Object} pagination
    */
-  async findByRecruiterId(_recruiterId, _filters = {}, _pagination = {}) {
-    const recruiterId = _recruiterId;
+  async findApplicantsByJobId(_jobId, _filters = {}, _pagination = {}) {
+    const jobId = _jobId;
     const filters = _filters;
-    const pagination = _pagination;
-    return Application.find({ recruiterId });
+    const { limit = 25, skip = 0 } = _pagination;
+    return Application.find({ job: jobId, ...filters })
+      .populate({
+        path: "applicant",
+        select: "name email",
+        populate: {
+          path: "profile",
+          select:
+            "headline location bio skills experience resumeUrl links -user -_id",
+        },
+      })
+      .limit(limit)
+      .skip(skip)
+      .sort({ appliedAt: -1 })
+      .lean();
   }
 
   /**
@@ -58,10 +71,16 @@ class ApplicationRepository {
    * @param {string} id
    * @param {string} status
    */
-  async updateStatus(_id, _status) {
-    const id = _id;
+  async updateStatus(_applicantId, _jobId, _status) {
+    const applicantId = _applicantId;
+    const jobId = _jobId;
     const status = _status;
     // TODO: implement update
+    return Application.findOneAndUpdate(
+      { applicant: applicantId, job: jobId },
+      { $set: { status: status } },
+      { returnDocument: true },
+    );
   }
 
   /**

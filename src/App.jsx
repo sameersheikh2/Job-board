@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { RouterProvider } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import router from "./router.jsx";
+import ComingSoonDialog from "./components/ui/ComingSoonDialog.jsx";
 
 const App = () => {
   const [showBanner, setShowBanner] = useState(() => {
@@ -44,6 +45,7 @@ const App = () => {
 
       <RouterProvider router={router} />
       <Toaster position="bottom-center" reverseOrder={false} />
+      <ComingSoonDialog />
     </>
   );
 };

@@ -17,6 +17,7 @@ const Jobs = lazy(() => import("./pages/Jobs.jsx"));
 const JobDetails = lazy(() => import("./pages/JobDetails.jsx"));
 const ProfileOnboarding = lazy(() => import("./pages/ProfileOnboarding.jsx"));
 const RecruiterDashboard = lazy(() => import("./pages/RecruiterDashboard.jsx"));
+const JobPipelinePage = lazy(() => import("./pages/JobPipelinePage.jsx"));
 
 const fallback = (
   <div className="min-h-screen flex items-center justify-center text-slate-500">
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
           {
             path: "recruiter-dashboard",
             element: lazyElement(RecruiterDashboard),
+          },
+          {
+            path: "recruiter/pipeline/:jobId",
+            element: lazyElement(JobPipelinePage),
           },
           {
             path: "profile",

@@ -31,12 +31,51 @@ class ApplicationService {
     });
   }
 
+  async getUserApplications(applicantId, pagination = {}) {
+    const { skip = 0, limit = 25 } = pagination;
+    const applications = await this.appRepo.findByApplicantId(applicantId);
+    const total = applications.length;
+    const paginatedApps = applications.slice(skip, skip + limit);
+    return { applications: paginatedApps, total };
+  }
+
   async getApplicantApplications(applicantId, filters = {}) {
     return this.appRepo.findByApplicantId(applicantId, filters);
   }
 
-  async getRecruiterApplications(recruiterId, filters = {}, pagination = {}) {
-    return this.appRepo.findByRecruiterId(recruiterId, filters, pagination);
+  async getJobApplications(jobId, recruiterId, filters = {}, pagination = {}) {
+    const job = await this.jobRepo.findById(jobId);
+    if (!job || job.createdBy.toString() !== recruiterId) {
+      throw new Error("Unauthorized access");
+    }
+    const applications = await this.appRepo.findApplicantsByJobId(
+      jobId,
+      filters,
+      pagination,
+    );
+    return applications.map((app) => ({
+      ...app.applicant,
+      status: app.status,
+      appliedAt: app.appliedAt,
+    }));
+  }
+
+  async updateStatus(applicantId, recruiterId, jobId, status) {
+    if (!applicantId || !recruiterId || !jobId || !status) {
+      throw new Error("Missing required fields");
+    }
+
+    const filters = {
+      applicant: applicantId,
+      recruiter: recruiterId,
+      job: jobId,
+    };
+    const application = await this.appRepo.findOne(filters);
+    if (!application) {
+      throw new Error("Application does not exist");
+    }
+    // if(application.applicant)
+    return await this.appRepo.updateStatus(applicantId, jobId, status);
   }
 }
 

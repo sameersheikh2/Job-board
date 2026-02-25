@@ -8,19 +8,35 @@ const initialState = {
   totalApplications: 0,
   applicationsPage: 1,
   applicationsLimit: 25,
-  status: "idle",
+  profileStatus: "idle",
+  applicationsStatus: "idle",
   error: null,
+  applicationsError: null,
 };
 
 export const fetchProfile = createAsyncThunk(
   "profile/fetchProfile",
   async (params = {}, thunkAPI) => {
     try {
-      const response = await apiClient.get("/profile/me", { params });
+      const response = await apiClient.get("/profile/me");
       const user = response.data?.data?.user;
       if (user) {
         thunkAPI.dispatch(updateUser(user));
       }
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message,
+      );
+    }
+  },
+);
+
+export const fetchApplications = createAsyncThunk(
+  "profile/fetchApplications",
+  async (params = {}, thunkAPI) => {
+    try {
+      const response = await apiClient.get("/applications", { params });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -53,29 +69,54 @@ const profileSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    const handlePending = (state) => {
-      state.status = "loading";
-      state.error = null;
-    };
-    const handleRejected = (state, action) => {
-      state.status = "failed";
-      state.error = action.payload || action.error?.message;
-    };
-    const handleFulfilled = (state, action) => {
-      state.status = "succeeded";
-      state.profile = action.payload?.data?.profile || null;
-      state.applications = action.payload?.data?.applications || [];
-      state.totalApplications = action.payload?.data?.totalApplications || 0;
-    };
-
+    // Profile fetch handlers
     builder
-      .addCase(fetchProfile.pending, handlePending)
-      .addCase(fetchProfile.rejected, handleRejected)
-      .addCase(fetchProfile.fulfilled, handleFulfilled)
-      .addCase(upsertProfile.pending, handlePending)
-      .addCase(upsertProfile.rejected, handleRejected)
-      .addCase(upsertProfile.fulfilled, handleFulfilled)
-      .addCase(logout, () => initialState);
+      .addCase(fetchProfile.pending, (state) => {
+        state.profileStatus = "loading";
+        state.error = null;
+      })
+      .addCase(fetchProfile.rejected, (state, action) => {
+        state.profileStatus = "failed";
+        state.error = action.payload || action.error?.message;
+      })
+      .addCase(fetchProfile.fulfilled, (state, action) => {
+        state.profileStatus = "succeeded";
+        state.profile = action.payload?.data?.profile || null;
+      });
+
+    // Applications fetch handlers
+    builder
+      .addCase(fetchApplications.pending, (state) => {
+        state.applicationsStatus = "loading";
+        state.applicationsError = null;
+      })
+      .addCase(fetchApplications.rejected, (state, action) => {
+        state.applicationsStatus = "failed";
+        state.applicationsError = action.payload || action.error?.message;
+      })
+      .addCase(fetchApplications.fulfilled, (state, action) => {
+        state.applicationsStatus = "succeeded";
+        state.applications = action.payload?.data?.applications || [];
+        state.totalApplications = action.payload?.data?.totalApplications || 0;
+      });
+
+    // Upsert profile handlers
+    builder
+      .addCase(upsertProfile.pending, (state) => {
+        state.profileStatus = "loading";
+        state.error = null;
+      })
+      .addCase(upsertProfile.rejected, (state, action) => {
+        state.profileStatus = "failed";
+        state.error = action.payload || action.error?.message;
+      })
+      .addCase(upsertProfile.fulfilled, (state, action) => {
+        state.profileStatus = "succeeded";
+        state.profile = action.payload?.data?.profile || null;
+      });
+
+    // Logout
+    builder.addCase(logout, () => initialState);
   },
 });
 

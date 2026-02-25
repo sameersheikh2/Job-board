@@ -1,7 +1,12 @@
-import { SORT_OPTIONS_USER } from "../../utils/jobSortingUtils";
+import { useMemo } from "react";
+import {
+  SORT_OPTIONS_USER,
+  sortUserApplications,
+} from "../../utils/jobSortingUtils";
 import {
   getUserApplicationStats,
   FILTER_STATUS_OPTIONS_USER,
+  filterUserApplications,
 } from "../../utils/jobFilteringUtils";
 import { SortFilterControls } from "../recruiter/SortFilterControls";
 import AppliedJobCard from "./AppliedJobCard.jsx";
@@ -13,7 +18,18 @@ const AppliedJobsList = ({
   filterBy = "all",
   onFilterChange,
 }) => {
-  const safeApplications = Array.isArray(applications) ? applications : [];
+  const safeApplications = useMemo(
+    () => (Array.isArray(applications) ? applications : []),
+    [applications],
+  );
+
+  // Apply filter and sort to applications
+  const filteredAndSortedJobs = useMemo(() => {
+    let filtered = filterUserApplications(safeApplications, filterBy);
+    return sortUserApplications(filtered, sortBy);
+  }, [safeApplications, filterBy, sortBy]);
+
+  // Get stats from original applications for accurate counts
   const statusCounts = getUserApplicationStats(safeApplications);
 
   if (!safeApplications.length) {
@@ -39,11 +55,11 @@ const AppliedJobsList = ({
         sortOptions={SORT_OPTIONS_USER}
         filterOptions={FILTER_STATUS_OPTIONS_USER}
         statusCounts={statusCounts}
-        title={`${safeApplications.length} application${safeApplications.length !== 1 ? "s" : ""}`}
+        title={`${filteredAndSortedJobs.length} of ${safeApplications.length} application${safeApplications.length !== 1 ? "s" : ""}`}
       />
 
       <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {safeApplications.map((application) => (
+        {filteredAndSortedJobs.map((application) => (
           <AppliedJobCard key={application._id} application={application} />
         ))}
       </div>

@@ -68,7 +68,6 @@ const RecruiterDashboard = () => {
     setJobToDelete(null);
   }, []);
 
-  // Get active filters for badge display
   const activeFilters = useMemo(() => {
     const filters = [];
     if (filterBy !== "all") {

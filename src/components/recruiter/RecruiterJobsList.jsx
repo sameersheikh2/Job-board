@@ -26,6 +26,7 @@ import AppliedFiltersBadges from "../jobs/AppliedFiltersBadges";
 import { formatStatus, formatDate } from "../../utils/formatUtils";
 import Pagination from "../jobs/Pagination";
 import { formatSalary } from "../../utils/jobFormatters";
+import { useNavigate } from "react-router-dom";
 
 const statusStyles = {
   ACTIVE: "bg-emerald-100 text-emerald-700",
@@ -53,6 +54,7 @@ const RecruiterJobsList = ({
 }) => {
   const safeJobs = Array.isArray(jobs) ? jobs : [];
   const stats = getRecruiterJobStats(safeJobs);
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <p className="text-sm text-slate-500">Loading your roles...</p>;
@@ -64,7 +66,6 @@ const RecruiterJobsList = ({
 
   return (
     <div className="space-y-8">
-      {/* Applied Filters Badges */}
       {activeFilters.length > 0 && (
         <div className="mb-6">
           <AppliedFiltersBadges
@@ -236,6 +237,11 @@ const RecruiterJobsList = ({
                   <button
                     type="button"
                     className="font-semibold text-[#0f172a] hover:underline"
+                    onClick={() =>
+                      navigate(`/recruiter/pipeline/${job._id}`, {
+                        state: job,
+                      })
+                    }
                   >
                     View pipeline
                   </button>
