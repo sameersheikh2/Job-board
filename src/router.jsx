@@ -18,6 +18,7 @@ const JobDetails = lazy(() => import("./pages/JobDetails.jsx"));
 const ProfileOnboarding = lazy(() => import("./pages/ProfileOnboarding.jsx"));
 const RecruiterDashboard = lazy(() => import("./pages/RecruiterDashboard.jsx"));
 const JobPipelinePage = lazy(() => import("./pages/JobPipelinePage.jsx"));
+const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 
 const fallback = (
   <div className="min-h-screen flex items-center justify-center text-slate-500">
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
       {
         path: "profile-onboarding",
         element: lazyElement(ProfileOnboarding),
+      },
+      {
+        path: "*",
+        element: lazyElement(NotFound),
       },
     ],
   },
