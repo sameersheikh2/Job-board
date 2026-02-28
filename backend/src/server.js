@@ -44,9 +44,13 @@ app.use((req, res) => {
 });
 
 // Connect to the database
-connectDB().then(() => {
-  const port = process.env.PORT || 5000;
-  app.listen(port, () => {
-    logger.info("Server is running", { port });
+connectDB()
+  .then(() => {
+    const port = process.env.PORT || 5000;
+    app.listen(port, () => {
+      logger.info("Server is running", { port });
+    });
+  })
+  .catch((err) => {
+    logger.error("Failed to connect to database", { error: err.message });
   });
-});
