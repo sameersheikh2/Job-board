@@ -25,22 +25,14 @@ import { useSelector } from "react-redux";
 import { showComingSoon } from "../utils/comingSoon.js";
 import { apiClient } from "../api/apiClient";
 
-const stages = [
-  "Applied",
-  "Shortlisted",
-  "Interviewed",
-  "Offered",
-  "Hired",
-  "Rejected",
-];
+const stages = ["applied", "reviewed", "interviewing", "accepted", "rejected"];
 
 const statusColors = {
-  Applied: "bg-blue-100 text-blue-800",
-  Shortlisted: "bg-yellow-100 text-yellow-800",
-  Interviewed: "bg-purple-100 text-purple-800",
-  Offered: "bg-green-100 text-green-800",
-  Hired: "bg-emerald-100 text-emerald-800",
-  Rejected: "bg-red-100 text-red-800",
+  applied: "bg-blue-100 text-blue-800",
+  reviewed: "bg-yellow-100 text-yellow-800",
+  interviewing: "bg-purple-100 text-purple-800",
+  accepted: "bg-green-100 text-green-800",
+  rejected: "bg-red-100 text-red-800",
 };
 
 const JobPipelinePage = () => {
@@ -49,7 +41,7 @@ const JobPipelinePage = () => {
   const { jobId } = useParams();
   const passedJob = location?.state;
   const { user } = useSelector((state) => state.auth); // Assuming auth slice has user with role
-  const [job, setJob] = useState(passedJob);
+  const [job] = useState(passedJob);
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showJobDetails, setShowJobDetails] = useState(false);
@@ -82,15 +74,27 @@ const JobPipelinePage = () => {
     );
   };
 
-  const handleAction = async (applicant, action) => {
-    console.log(`${action} for ${applicant.name}`);
+  const handleAction = async (applicantId, action) => {
+    const validStatuses = [
+      "applied",
+      "reviewed",
+      "interviewing",
+      "accepted",
+      "rejected",
+    ];
+    const status = action.toLowerCase();
+    if (!validStatuses.includes(status)) {
+      console.error("Invalid status:", action);
+      return;
+    }
     try {
-      const res = await apiClient.put(`/applications/${jobId}/${applicant}`, {
-        status: action,
+      const res = await apiClient.put(`/applications/${jobId}/${applicantId}`, {
+        status,
       });
-      console.log(res?.data);
-      updateApplicantStatus(res.data?.data?.application?.applicant, action);
-      // updateApplicantStatus(applicant._id, action);
+      updateApplicantStatus(
+        res.data?.data?.application?.applicant?._id || applicantId,
+        status,
+      );
     } catch (error) {
       console.error("Error updating applicant status:", error);
     }
@@ -253,7 +257,7 @@ const JobPipelinePage = () => {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
                             {stages
-                              .filter((stage) => stage !== "Applied")
+                              .filter((stage) => stage !== "applied")
                               .map((stage) => (
                                 <DropdownMenuItem
                                   key={stage}
@@ -261,7 +265,8 @@ const JobPipelinePage = () => {
                                     handleAction(applicant._id, stage)
                                   }
                                 >
-                                  {stage}
+                                  {stage.charAt(0).toUpperCase() +
+                                    stage.slice(1)}
                                 </DropdownMenuItem>
                               ))}
                           </DropdownMenuContent>
@@ -294,7 +299,7 @@ const JobPipelinePage = () => {
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() =>
-                                updateApplicantStatus(applicant._id, "Rejected")
+                                handleAction(applicant._id, "rejected")
                               }
                               className="text-red-600"
                             >

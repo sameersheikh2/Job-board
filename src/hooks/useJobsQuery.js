@@ -109,7 +109,6 @@ export const useJobsQuery = () => {
       }
     });
 
-    console.log("Fetching jobs with:", paramsForApi);
     dispatch(fetchJobs(paramsForApi)); // call Redux thunk to get jobs
   }, [dispatch, getCurrentParams]);
 

@@ -270,6 +270,9 @@ const ProfileDetailsForm = ({
             className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
             maxLength={160}
           />
+          <p className="text-xs text-slate-500">
+            Supported: Google Drive, Dropbox, OneDrive, iCloud, GitHub
+          </p>
         </div>
 
         {resumeWarningMessage && (

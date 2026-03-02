@@ -14,7 +14,7 @@ const ApplicationSchema = new mongoose.Schema({
   job: { type: mongoose.Schema.Types.ObjectId, ref: "Job", required: true },
   status: {
     type: String,
-    enum: ["applied", "reviewed", "accepted", "rejected"],
+    enum: ["applied", "reviewed", "interviewing", "accepted", "rejected"],
     default: "applied",
   },
   appliedAt: { type: Date, default: Date.now },

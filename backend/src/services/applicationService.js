@@ -65,6 +65,17 @@ class ApplicationService {
       throw new Error("Missing required fields");
     }
 
+    const validStatuses = [
+      "applied",
+      "reviewed",
+      "interviewing",
+      "accepted",
+      "rejected",
+    ];
+    if (!validStatuses.includes(status.toLowerCase())) {
+      throw new Error("Invalid status");
+    }
+
     const filters = {
       applicant: applicantId,
       recruiter: recruiterId,
@@ -74,8 +85,11 @@ class ApplicationService {
     if (!application) {
       throw new Error("Application does not exist");
     }
-    // if(application.applicant)
-    return await this.appRepo.updateStatus(applicantId, jobId, status);
+    return await this.appRepo.updateStatus(
+      applicantId,
+      jobId,
+      status.toLowerCase(),
+    );
   }
 }
 
