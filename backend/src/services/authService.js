@@ -53,7 +53,7 @@ class AuthService {
       throw err;
     }
     const token = this.generateToken(user);
-    
+
     user.password = undefined;
     return { user, token };
   }

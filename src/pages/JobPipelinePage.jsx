@@ -24,8 +24,13 @@ import {
 import { useSelector } from "react-redux";
 import { showComingSoon } from "../utils/comingSoon.js";
 import { apiClient } from "../api/apiClient";
+import {
+  APPLICATION_STATUS_LIST,
+  APPLICATION_STATUSES,
+  USER_ROLES,
+} from "../utils/constants.js";
 
-const stages = ["applied", "reviewed", "interviewing", "accepted", "rejected"];
+const stages = APPLICATION_STATUS_LIST;
 
 const statusColors = {
   applied: "bg-blue-100 text-blue-800",
@@ -40,24 +45,23 @@ const JobPipelinePage = () => {
   const location = useLocation();
   const { jobId } = useParams();
   const passedJob = location?.state;
-  const { user } = useSelector((state) => state.auth); // Assuming auth slice has user with role
+  const { user } = useSelector((state) => state.auth);
   const [job] = useState(passedJob);
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showJobDetails, setShowJobDetails] = useState(false);
 
   useEffect(() => {
-    if (!user || user.role !== "recruiter") {
+    if (!user || user.role !== USER_ROLES.RECRUITER) {
       navigate("/");
       return;
     }
     const fetchApplicants = async () => {
       try {
         const res = await apiClient.get(`/applications/${jobId}`);
-        console.log(res.data?.data?.applications);
         setApplicants(res?.data?.data?.applications);
-      } catch (error) {
-        console.error("Error fetching applicants:", error);
+      } catch {
+        return;
       } finally {
         setLoading(false);
       }
@@ -66,7 +70,6 @@ const JobPipelinePage = () => {
   }, [jobId, user, navigate]);
 
   const updateApplicantStatus = (applicantId, newStatus) => {
-    console.log(`Updating applicant ${applicantId} to ${newStatus}`);
     setApplicants((prev) =>
       prev.map((app) =>
         app._id === applicantId ? { ...app, status: newStatus } : app,
@@ -75,16 +78,8 @@ const JobPipelinePage = () => {
   };
 
   const handleAction = async (applicantId, action) => {
-    const validStatuses = [
-      "applied",
-      "reviewed",
-      "interviewing",
-      "accepted",
-      "rejected",
-    ];
     const status = action.toLowerCase();
-    if (!validStatuses.includes(status)) {
-      console.error("Invalid status:", action);
+    if (!APPLICATION_STATUS_LIST.includes(status)) {
       return;
     }
     try {
@@ -95,8 +90,8 @@ const JobPipelinePage = () => {
         res.data?.data?.application?.applicant?._id || applicantId,
         status,
       );
-    } catch (error) {
-      console.error("Error updating applicant status:", error);
+    } catch {
+      return;
     }
   };
 
@@ -257,7 +252,10 @@ const JobPipelinePage = () => {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
                             {stages
-                              .filter((stage) => stage !== "applied")
+                              .filter(
+                                (stage) =>
+                                  stage !== APPLICATION_STATUSES.APPLIED,
+                              )
                               .map((stage) => (
                                 <DropdownMenuItem
                                   key={stage}

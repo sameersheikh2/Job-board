@@ -1,33 +1,14 @@
+# Future Implementations
+
+Upcoming enhancements may include advanced notification systems, enhanced search and filtering capabilities, comprehensive analytics dashboards, improved user experience features, and integrations with emerging technologies like AI-driven analytics. Stay tuned for updates!
+
+---
+
 # DevHubIO — Job Board Platform
 
 Full-stack job board with recruiter + job seeker flows, modern UI, and a clean backend architecture. Built to showcase real-world product thinking: fast onboarding, curated roles, and structured hiring pipelines.
 
 ![DevHubIO Poster](./public/image.png)
-
----
-
-## 🚀 Still Need To Implement
-
-**Core Features (Priority)**
-
-- Email notifications (password reset, application status updates, job alerts)
-- Email verification on signup
-- Password reset functionality
-- Job alerts and saved searches
-- Advanced filtering (salary range, company filtering, years of experience)
-- Full-text search with relevance scoring
-- Recruiter analytics dashboard with detailed metrics
-- Interview stage management
-- Bulk job operations (import/export CSV)
-
-**Nice to Have (Polish)**
-
-- Dark mode theme support
-- User preferences and notification settings
-- Resume parsing and auto-fill
-- Candidate evaluation scoring
-- Admin dashboard with platform analytics
-- SMS notifications
 
 ---
 
@@ -63,7 +44,7 @@ Full-stack job board with recruiter + job seeker flows, modern UI, and a clean b
 - Filter applied jobs by status
 - Sort applied jobs by recent/oldest
 - Application count and statistics
-- Job details viewable from applied jobs 
+- Job details viewable from applied jobs
 
 ### Recruiter Features
 
@@ -92,16 +73,6 @@ Full-stack job board with recruiter + job seeker flows, modern UI, and a clean b
 - Input sanitization for XSS prevention
 - JWT token-based stateless authentication
 - Optional authentication support for job details (users see their application status)
-
----
-
-## 🎯 Future Polishing Ideas
-
-- Password reset + email verification
-- Golang email service (learning project)
-- Full recruiter analytics dashboard
-- Job alerts + saved searches
-- CI + test coverage
 
 ---
 
@@ -243,16 +214,13 @@ Before pushing to Vercel (Frontend) and Render (Backend):
 
 ## Next Steps for Implementation
 
-Refer to **"Still Need To Implement"** section at the top of this README for prioritized features.
+Refer to **"Future Implementations"** section at the top of this README for upcoming features.
 
 **Quick Start:**
 
-1. Build public job listing page (no auth required)
-2. Add email notifications service
-3. Implement password reset + email verification
-4. Build recruiter analytics dashboard
-5. Add advanced search with relevance scoring
-6. Setup CI/CD pipeline with tests
+1. Enhance platform scalability and user experience
+2. Implement advanced features like notifications and analytics
+3. Add robust testing and CI/CD pipelines
 
 ## Author
 

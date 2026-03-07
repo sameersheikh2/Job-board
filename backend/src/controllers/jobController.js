@@ -100,9 +100,9 @@ class JobController {
     const sanitizedSearch = sanitizeInput(search);
 
     if (sanitizedSearch && sanitizedSearch.length < 2) {
-      return res.status(400).json({
-        message: "Search term must be at least 2 characters long",
-      });
+      const err = new Error("Search term must be at least 2 characters long");
+      err.statusCode = 400;
+      return next(err);
     }
 
     const page = parseInt(req.query.page) || 1;
@@ -132,7 +132,9 @@ class JobController {
     try {
       const job = await jobService.getJobById(req.params.jobId);
       if (!job) {
-        return res.status(404).json({ message: "Job not found" });
+        const err = new Error("Job not found");
+        err.statusCode = 404;
+        return next(err);
       }
 
       let hasApplied = false;

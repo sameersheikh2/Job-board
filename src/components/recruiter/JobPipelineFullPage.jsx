@@ -8,20 +8,29 @@ import {
   DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu";
 
-const stages = ["Applied", "Reviewed", "Interviewed", "Accepted", "Rejected"];
+import {
+  APPLICATION_STATUS_LIST,
+  APPLICATION_STATUSES,
+} from "../../utils/constants.js";
+
+const stages = APPLICATION_STATUS_LIST;
 
 const statusColors = {
-  Applied: "bg-blue-100 text-blue-800",
-  Reviwed: "bg-yellow-100 text-yellow-800",
-  Interviewed: "bg-purple-100 text-purple-800",
-  Accepted: "bg-green-100 text-green-800",
-  Rejected: "bg-red-100 text-red-800",
+  applied: "bg-blue-100 text-blue-800",
+  reviewed: "bg-yellow-100 text-yellow-800",
+  interviewing: "bg-purple-100 text-purple-800",
+  accepted: "bg-green-100 text-green-800",
+  rejected: "bg-red-100 text-red-800",
 };
 
-const JobPipelineFullPage = ({ job, applicants = [], onClose }) => {
+const JobPipelineFullPage = ({
+  job,
+  applicants = [],
+  onClose,
+  onStatusChange,
+}) => {
   const updateApplicantStatus = (applicantId, newStatus) => {
-    // TODO: Update in backend
-    console.log(`Updating applicant ${applicantId} to ${newStatus}`);
+    onStatusChange?.(applicantId, newStatus);
   };
 
   return (
@@ -86,22 +95,29 @@ const JobPipelineFullPage = ({ job, applicants = [], onClose }) => {
                               <Badge
                                 className={`${statusColors[applicant.status]} flex items-center gap-1`}
                               >
-                                {applicant.status}
+                                {applicant.status.charAt(0).toUpperCase() +
+                                  applicant.status.slice(1)}
                                 <ChevronDown className="h-3 w-3" />
                               </Badge>
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            {stages.map((stage) => (
-                              <DropdownMenuItem
-                                key={stage}
-                                onClick={() =>
-                                  updateApplicantStatus(applicant._id, stage)
-                                }
-                              >
-                                {stage}
-                              </DropdownMenuItem>
-                            ))}
+                            {stages
+                              .filter(
+                                (stage) =>
+                                  stage !== APPLICATION_STATUSES.APPLIED,
+                              )
+                              .map((stage) => (
+                                <DropdownMenuItem
+                                  key={stage}
+                                  onClick={() =>
+                                    updateApplicantStatus(applicant._id, stage)
+                                  }
+                                >
+                                  {stage.charAt(0).toUpperCase() +
+                                    stage.slice(1)}
+                                </DropdownMenuItem>
+                              ))}
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </td>

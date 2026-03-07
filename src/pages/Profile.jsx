@@ -15,10 +15,7 @@ import {
 import { Briefcase, UserRound } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchProfile,
-  fetchApplications,
-} from "../features/profileSlice/profileSlice.jsx";
+import { fetchApplications } from "../features/profileSlice/profileSlice.jsx";
 
 const Profile = () => {
   const { user, profile, isLoading } = useAuthProfile();
@@ -32,11 +29,6 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const [sortBy, setSortBy] = useState("recent");
   const [filterBy, setFilterBy] = useState("all");
-
-  // Fetch profile data on mount
-  // useEffect(() => {
-  //   dispatch(fetchProfile());
-  // }, [dispatch]);
 
   useEffect(() => {
     if (activeTab === "applied") {

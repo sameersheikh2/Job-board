@@ -1,7 +1,8 @@
 const applicationService = require("../services/applicationService");
+const { successResponse } = require("../utils/apiResponse");
 
 class ApplicationController {
-  async applyToJob(req, res) {
+  async applyToJob(req, res, next) {
     const applicantId = req.user.id;
     const jobId = req.params.jobId;
 
@@ -10,21 +11,19 @@ class ApplicationController {
         jobId,
         applicantId,
       );
-      res.status(201).json({
-        success: true,
-        message: "Application submitted successfully",
-        data: { application },
-      });
+      return successResponse(
+        res,
+        { application },
+        "Application submitted successfully",
+        201,
+      );
     } catch (error) {
-      const statusCode = error.message === "Already applied" ? 409 : 400;
-      res.status(statusCode).json({
-        success: false,
-        message: error.message,
-      });
+      error.statusCode = error.message === "Already applied" ? 409 : 400;
+      return next(error);
     }
   }
 
-  async getUserApplications(req, res) {
+  async getUserApplications(req, res, next) {
     const applicantId = req.user.id;
     const page = parseInt(req.query.page) || 1;
     const limit = Math.min(parseInt(req.query.limit) || 25, 100);
@@ -36,22 +35,16 @@ class ApplicationController {
           skip,
           limit,
         });
-      res.status(200).json({
-        success: true,
-        data: {
-          applications,
-          totalApplications: total,
-        },
+      return successResponse(res, {
+        applications,
+        totalApplications: total,
       });
     } catch (error) {
-      res.status(400).json({
-        success: false,
-        message: error.message,
-      });
+      return next(error);
     }
   }
 
-  async getJobApplications(req, res) {
+  async getJobApplications(req, res, next) {
     const jobId = req.params.jobId;
     const filters = req.query;
     const recruiterId = req.user.id;
@@ -67,19 +60,13 @@ class ApplicationController {
         filters,
         pagination,
       );
-      res.status(200).json({
-        success: true,
-        data: { applications },
-      });
+      return successResponse(res, { applications });
     } catch (error) {
-      res.status(400).json({
-        success: false,
-        message: error.message,
-      });
+      return next(error);
     }
   }
 
-  async updateStatus(req, res) {
+  async updateStatus(req, res, next) {
     const status = req.body.status;
     const recruiterId = req.user.id;
     const { jobId, applicantId } = req.params;
@@ -90,16 +77,13 @@ class ApplicationController {
         jobId,
         status,
       );
-      res.status(200).json({
-        success: true,
-        message: "Application status updated successfully",
-        data: { application: updatedApplication },
-      });
+      return successResponse(
+        res,
+        { application: updatedApplication },
+        "Application status updated successfully",
+      );
     } catch (error) {
-      res.status(400).json({
-        success: false,
-        message: error.message,
-      });
+      return next(error);
     }
   }
 }
