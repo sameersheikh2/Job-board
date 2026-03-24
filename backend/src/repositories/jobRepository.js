@@ -182,7 +182,7 @@ class JobRepository {
 
    */
 
-  async delete(id) {
+  delete(id) {
     return Job.findByIdAndDelete(id);
   }
 }

@@ -8,7 +8,7 @@ class UserRepository {
    * @param {Object} userData - name, email, password, role.
    * @returns {Promise<Object>} created user doc
    */
-  async create(userData) {
+  create(userData) {
     return User.create(userData);
   }
 
@@ -18,7 +18,7 @@ class UserRepository {
    * @param {{ includePassword?: boolean }} options
    * @returns {Promise<Object|null>} user doc or null
    */
-  async findByEmail(email, options = {}) {
+  findByEmail(email, options = {}) {
     if (!email) return null;
     const cleaned = email.toLowerCase().trim();
     if (options.includePassword) {
@@ -32,11 +32,11 @@ class UserRepository {
    * @param {string} id
    * @returns {Promise<Object|null>}
    */
-  async findById(id) {
+  findById(id) {
     return User.findById(id);
   }
 
-  async updateById(id, updates, options = {}) {
+  updateById(id, updates, options = {}) {
     return User.findByIdAndUpdate(id, updates, options);
   }
 

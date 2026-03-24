@@ -116,3 +116,10 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+
+// app.get("/products?category=&sort=&limit&page", ()=>{})
+// react force maping
+//useState  under the hood useReducer
+
+//need improvement
+//DevOps , udemy CI/CD AWS EC2 YAML Kubernates

@@ -7,7 +7,7 @@ class ProfileRepository {
     return Profile.findOne({ user: userId });
   }
 
-  async upsertByUserId(userId, payload) {
+  upsertByUserId(userId, payload) {
     return Profile.findOneAndUpdate(
       { user: userId },
       { $set: { ...payload, user: userId } },
