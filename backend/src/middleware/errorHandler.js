@@ -2,17 +2,14 @@
 // Controllers should call next(err); this middleware formats responses consistently.
 
 const { errorResponse } = require("../utils/apiResponse");
-const { logger } = require("../utils/logger");
 
 function errorHandler(err, req, res, _next) {
   const statusCode = err.statusCode || 500;
 
   const isSafeError = [400, 401, 403, 404, 409].includes(statusCode);
 
-  logger.error("Request failed", {
+  console.error(`[ERROR] Request failed: ${err.message}`, {
     status: statusCode,
-    message: err.message,
-    stack: err.stack,
     url: req.url,
     method: req.method,
     userId: req.user?.id,

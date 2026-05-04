@@ -1,6 +1,3 @@
-// Purpose: Application entrypoint. Load env, connect DB, register middleware/routes, and start server.
-// Stateless design: no in-memory sessions; ready for horizontal scaling.
-
 const express = require("express");
 const app = express();
 const cors = require("cors");

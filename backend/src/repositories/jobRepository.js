@@ -3,16 +3,6 @@ const mongoose = require("mongoose");
 const Job = require("../models/Job");
 
 class JobRepository {
-  /**
-
-   * Create a job document.
-
-   * @param {Object} jobData - title, description, company, location, status, recruiterId.
-
-   * @returns {Promise<Object>} created job doc
-
-   */
-
   async create(jobData) {
     return await Job.create(jobData);
   }
@@ -31,24 +21,13 @@ class JobRepository {
     return await Job.findById(id);
   }
 
-  /**
-
-   * List jobs with filters + pagination.
-
-   * @param {Object} filters - e.g., { status, location }
-
-   * @param {Object} pagination - { limit, skip }
-
-   * @returns {Promise<Array>} jobs
-
-   */
+  // List jobs with filters + pagination.
 
   async findAllWithFilters(filters = {}, pagination = {}) {
     const query = { status: "ACTIVE" };
     if (filters.search) {
       query.$text = { $search: filters.search };
     }
-
     if (filters.location) {
       query.locationType = filters.location;
     }
@@ -82,6 +61,15 @@ class JobRepository {
           sort = { createdAt: -1 };
       }
     }
+
+    // db.users.find({
+    //   $text: { $search: "temr" },
+    //   locationType: "",
+    //   employment: "",
+    //   experience: "",
+    //   status: "",
+    //   sort: { createdAt: -1 },
+    // });
     const jobs = await Job.find(query)
       .sort(sort)
       .skip(pagination.skip)
