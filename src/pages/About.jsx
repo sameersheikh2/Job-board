@@ -33,7 +33,7 @@ const About = () => {
         {highlights.map(({ title, desc }) => (
           <div
             key={title}
-            className="rounded-2xl border border-[#c0b196] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
             <div className="text-sm font-semibold text-[#0f172a]">{title}</div>
             <p className="mt-2 text-sm text-slate-700">{desc}</p>
@@ -52,7 +52,7 @@ const About = () => {
             review a signal-ranked pipeline instead of sifting through noise.
           </p>
         </div>
-        <div className="rounded-2xl border border-[#c0b196] bg-white p-5 text-sm text-slate-700 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-700 shadow-sm">
           <ul className="space-y-2 list-disc list-inside">
             <li>Curated tech roles with clear compensation signals</li>
             <li>Simple application flow and saved progress for candidates</li>

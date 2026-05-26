@@ -61,7 +61,7 @@ const ProfileHeader = ({ user, profile, onEdit }) => {
   ];
 
   return (
-    <div className="rounded-2xl border border-[#e6dccd] bg-white px-6 py-6 shadow-sm sm:px-8">
+    <div className="rounded-2xl border border-slate-200 bg-white px-6 py-6 shadow-sm sm:px-8">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <Avatar className="h-20 w-20 ring-2 ring-white shadow-md sm:h-24 sm:w-24">
@@ -110,7 +110,7 @@ const ProfileHeader = ({ user, profile, onEdit }) => {
           })}
           <Button
             variant="outline"
-            className="w-full border-[#d6c7b0] text-slate-700 hover:text-slate-900 cursor-pointer font-semibold sm:w-auto"
+            className="w-full border-slate-200 text-slate-700 hover:text-slate-900 cursor-pointer font-semibold sm:w-auto"
             onClick={onEdit}
           >
             Edit Profile

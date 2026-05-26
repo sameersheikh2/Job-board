@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/button";
 import { Spinner } from "../../../components/ui/spinner";
@@ -12,8 +11,6 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
-
-  const MotionForm = motion.form;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,19 +52,13 @@ const LoginForm = () => {
         <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
           Login to continue
         </h1>
-        <p className="text-slate-600">
+        <p className="text-slate-650">
           Access your saved searches, manage applications, and pick up where you
           left off.
         </p>
       </div>
 
-      <MotionForm
-        className="space-y-4"
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, ease: "easeOut" }}
-        onSubmit={formSubmitHandler}
-      >
+      <form className="space-y-4" onSubmit={formSubmitHandler}>
         <div className="space-y-2">
           <label
             className="text-sm font-semibold text-slate-800"
@@ -85,7 +76,7 @@ const LoginForm = () => {
             onChange={(e) =>
               setUserData({ ...userData, email: e.target.value })
             }
-            className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
+            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-950 shadow-xs transition focus:border-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10"
             required
           />
         </div>
@@ -105,12 +96,12 @@ const LoginForm = () => {
             onChange={(e) =>
               setUserData({ ...userData, password: e.target.value })
             }
-            className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
+            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-955 shadow-xs transition focus:border-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10"
             required
           />
         </div>
         <Button
-          className="w-full bg-[#0f172a] text-white hover:-translate-y-0.5 hover:shadow-lg hover:bg-[#0c1323] cursor-pointer transition disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full bg-slate-900 text-white hover:bg-slate-800 cursor-pointer transition disabled:cursor-not-allowed disabled:opacity-50"
           type="submit"
           disabled={isLoading}
         >
@@ -123,9 +114,9 @@ const LoginForm = () => {
             "Login"
           )}
         </Button>
-      </MotionForm>
+      </form>
 
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-slate-500 pt-2 border-t border-slate-100">
         Don&apos;t have an account?{" "}
         <Link
           to="/signup"

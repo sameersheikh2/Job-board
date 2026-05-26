@@ -17,13 +17,13 @@ const HeaderAuthActions = ({ isAuthenticated, isLoading, user, onLogout }) => {
         <>
           <InteractiveHoverButton
             onClick={() => navigate("/login")}
-            className="min-w-28 border-[#d6c7b0] px-3 py-2 text-slate-800 hover:border-[#1f2933]"
+            className="min-w-28 border-slate-200 px-3 py-2 text-slate-800 hover:border-slate-400"
           >
             Login
           </InteractiveHoverButton>
           <InteractiveHoverButton
             onClick={() => navigate("/signup")}
-            className="min-w-28 border-[#1f2933] bg-[#1f2933] px-3 py-2 text-white hover:border-[#0c1323] hover:bg-[#0c1323]"
+            className="min-w-28 border-slate-900 bg-slate-900 px-3 py-2 text-white hover:border-slate-800 hover:bg-slate-800"
           >
             Sign Up
           </InteractiveHoverButton>

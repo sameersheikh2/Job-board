@@ -24,7 +24,7 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-20 border-b border-[#d6c7b0] bg-white/50 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/50 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <HeaderBrand />
 
@@ -43,7 +43,7 @@ const Header = () => {
           type="button"
           aria-label="Toggle navigation"
           aria-expanded={open}
-          className="inline-flex items-center justify-center rounded-md border border-[#d6c7b0] p-2 text-slate-700 lg:hidden transition"
+          className="inline-flex items-center justify-center rounded-md border border-slate-200 p-2 text-slate-700 lg:hidden transition"
           onClick={() => setOpen((prev) => !prev)}
         >
           <svg

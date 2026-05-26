@@ -3,13 +3,13 @@ import MobileMenuAuth from "./MobileMenuAuth.jsx";
 
 const MobileMenu = ({ open, hideHome, navItems, onClose, ...authProps }) => {
   const itemClass = (isActive) =>
-    `rounded-md px-2 py-2 transition hover:bg-[#f1ede6] ${
+    `rounded-md px-2 py-2 transition hover:bg-slate-100 ${
       isActive ? "text-[#1f2933]" : ""
     } cursor-pointer`;
 
   return (
     <div
-      className={`border-t border-[#d6c7b0] bg-white/50 lg:hidden transition-all duration-200 ease-out ${
+      className={`border-t border-slate-200 bg-white/50 lg:hidden transition-all duration-200 ease-out ${
         open ? "opacity-100 visible max-h-96" : "opacity-0 invisible max-h-0"
       }`}
     >

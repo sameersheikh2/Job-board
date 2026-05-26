@@ -32,7 +32,7 @@ const HeaderProfileMenu = ({ user, isLoading, onLogout = () => {} }) => {
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          className="flex items-center gap-2 rounded-full border border-[#d6c7b0] bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-[#1f2933] cursor-pointer"
+          className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 cursor-pointer"
         >
           {isLoading ? (
             <Skeleton className="h-9 w-9 rounded-full" />
@@ -51,7 +51,7 @@ const HeaderProfileMenu = ({ user, isLoading, onLogout = () => {} }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-56 rounded-xl border border-[#e6dccd] bg-white/95 p-2 shadow-xl"
+        className="w-56 rounded-xl border border-slate-200 bg-white/95 p-2 shadow-xl"
       >
         <DropdownMenuLabel className="text-[0.7rem] uppercase tracking-[0.2em] text-slate-500">
           Signed in as

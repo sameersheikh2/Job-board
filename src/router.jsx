@@ -40,7 +40,7 @@ const lazyElement = (Component) => {
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Layout = () => (
-  <div className="flex min-h-screen flex-col bg-linear-to-b from-[#f6f5f3] via-white to-[#efede8] text-slate-900">
+  <div className="flex min-h-screen flex-col bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900">
     <Header />
     <main className="flex-1">
       <Outlet />

@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { User, Briefcase } from "lucide-react";
 import { cn } from "../../../lib/utils";
 
@@ -20,49 +19,46 @@ const roles = [
 const RoleSelector = ({ value, onChange }) => {
   return (
     <div className="grid gap-3 mt-2">
-      {roles.map((role, idx) => {
+      {roles.map((role) => {
         const active = value === role.key;
         const Icon = role.icon;
         return (
-          <motion.button
+          <button
             type="button"
             key={role.key}
             onClick={() => onChange(role.key)}
             className={cn(
-              "group cursor-pointer rounded-2xl border p-4 text-left transition-all",
-              "focus:outline-none focus:ring-2 focus:ring-[#0f172a] focus:ring-offset-2",
+              "group cursor-pointer rounded-xl border p-4 text-left transition-all",
+              "focus:outline-hidden focus:ring-2 focus:ring-slate-900 focus:ring-offset-2",
               active
-                ? "border-[#0f172a] bg-[#0f172a] text-white shadow-lg"
-                : "border-[#d8cab8] bg-white hover:-translate-y-0.5 hover:shadow-md",
+                ? "border-slate-900 bg-slate-900 text-white shadow-xs"
+                : "border-slate-200 bg-white hover:border-slate-350 hover:shadow-xs",
             )}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.05, duration: 0.25, ease: "easeOut" }}
           >
-            <div className="flex items-center gap-3 ">
+            <div className="flex items-center gap-3">
               <div
                 className={cn(
-                  "flex  h-10 w-10 items-center justify-center rounded-full border",
+                  "flex h-9 w-9 items-center justify-center rounded-lg border",
                   active
                     ? "border-white/30 bg-white/10 text-white"
-                    : "border-[#d8cab8] bg-[#f9f6ef] text-[#0f172a]",
+                    : "border-slate-200 bg-slate-50 text-slate-900",
                 )}
               >
-                <Icon size={18} />
+                <Icon size={16} />
               </div>
               <div className="space-y-0.5">
                 <div className="text-sm font-semibold">{role.title}</div>
                 <p
                   className={cn(
                     "text-xs",
-                    active ? "text-white/80" : "text-slate-600",
+                    active ? "text-white/80" : "text-slate-500",
                   )}
                 >
                   {role.description}
                 </p>
               </div>
             </div>
-          </motion.button>
+          </button>
         );
       })}
     </div>

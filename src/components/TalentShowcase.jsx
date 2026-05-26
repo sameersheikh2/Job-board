@@ -14,30 +14,30 @@ const jobHighlights = [
 
 const TalentShowcase = ({ features }) => {
   return (
-    <div className="rounded-3xl border border-[#c0b196] bg-[#f9f6ef] p-6 shadow-xl backdrop-blur sm:p-8">
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs sm:p-8">
       <div className="space-y-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1f2a44] text-lg font-bold text-white">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 text-sm font-bold text-white">
             JB
           </div>
           <div>
             <div className="text-sm font-semibold text-slate-900">
               JobBoard Talent
             </div>
-            <div className="text-xs text-slate-600">Personalized job feed</div>
+            <div className="text-xs text-slate-500">Personalized job feed</div>
           </div>
         </div>
 
-        <div className="space-y-3 rounded-2xl bg-[#0f172a] p-4 text-white shadow-md">
-          <div className="text-sm text-slate-200">Today</div>
+        <div className="space-y-3 rounded-xl border border-slate-900 bg-slate-950 p-4 text-white shadow-xs">
+          <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">Today</div>
           <div className="space-y-2">
             {jobHighlights.map(({ title, pay, meta }) => (
-              <div key={title} className="rounded-xl bg-white/10 p-3">
+              <div key={title} className="rounded-lg bg-white/5 p-3">
                 <div className="flex items-center justify-between text-sm font-semibold">
                   <span>{title}</span>
-                  <span className="text-emerald-300">{pay}</span>
+                  <span className="text-emerald-400">{pay}</span>
                 </div>
-                <div className="text-xs text-slate-200">{meta}</div>
+                <div className="text-xs text-slate-400">{meta}</div>
               </div>
             ))}
           </div>
@@ -51,12 +51,12 @@ const TalentShowcase = ({ features }) => {
             {features.map(({ title, desc }) => (
               <div
                 key={title}
-                className="rounded-2xl border border-[#c0b196] bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="rounded-xl border border-slate-200 bg-slate-50/50 p-4 transition hover:bg-slate-50"
               >
                 <div className="text-sm font-semibold text-slate-900">
                   {title}
                 </div>
-                <p className="text-sm text-slate-600">{desc}</p>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>

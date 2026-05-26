@@ -71,14 +71,14 @@ const Recruiters = () => (
         <div className="flex flex-wrap gap-3">
           <Button
             asChild
-            className="cursor-pointer rounded-full border border-[#1f2933] bg-[#1f2933] text-white hover:bg-[#0c1323]"
+            className="cursor-pointer rounded-full border border-slate-900 bg-slate-900 text-white hover:bg-slate-800"
           >
             <Link to="/signup">Post a role</Link>
           </Button>
           <Button
             asChild
             variant="outline"
-            className="cursor-pointer rounded-full border-[#d6c7b0] bg-white text-slate-700 hover:-translate-y-0.5 hover:border-[#0f172a] hover:text-slate-900"
+            className="cursor-pointer rounded-full border-slate-200 bg-white text-slate-700 hover:-translate-y-0.5 hover:border-slate-800 hover:text-slate-900"
           >
             <a href="#workflow" className="inline-flex items-center gap-2">
               Request a demo
@@ -87,10 +87,10 @@ const Recruiters = () => (
           </Button>
         </div>
       </div>
-      <div className="rounded-3xl border border-[#e6dccd] bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="space-y-4">
           <div className="flex items-center gap-3 text-sm text-slate-600">
-            <div className="rounded-full border border-[#e6dccd] bg-[#fbfaf8] p-2">
+            <div className="rounded-full border border-slate-200 bg-slate-50/50 p-2">
               <Briefcase className="h-5 w-5 text-slate-700" />
             </div>
             <div>
@@ -102,7 +102,7 @@ const Recruiters = () => (
               </p>
             </div>
           </div>
-          <div className="space-y-3 rounded-2xl border border-[#efe6d8] bg-[#fbfaf8] p-4">
+          <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
             <div className="flex items-center justify-between text-sm">
               <span className="text-slate-600">Shortlist ready</span>
               <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
@@ -125,7 +125,7 @@ const Recruiters = () => (
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="rounded-2xl border border-[#e6dccd] bg-white px-6 py-5 shadow-sm"
+          className="rounded-2xl border border-slate-200 bg-white px-6 py-5 shadow-sm"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
             {stat.label}
@@ -141,10 +141,10 @@ const Recruiters = () => (
       {featureCards.map((feature) => (
         <div
           key={feature.title}
-          className="rounded-2xl border border-[#e6dccd] bg-white p-6 shadow-sm"
+          className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
         >
           <div className="flex items-center gap-3">
-            <span className="rounded-full border border-[#e6dccd] bg-[#fbfaf8] p-2">
+            <span className="rounded-full border border-slate-200 bg-slate-50/50 p-2">
               <feature.icon className="h-5 w-5 text-slate-700" />
             </span>
             <p className="text-lg font-semibold text-slate-900">
@@ -160,7 +160,7 @@ const Recruiters = () => (
 
     <div
       id="workflow"
-      className="rounded-3xl border border-[#e6dccd] bg-white p-6 shadow-sm sm:p-8"
+      className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
     >
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
@@ -174,7 +174,7 @@ const Recruiters = () => (
         <Button
           asChild
           variant="outline"
-          className="cursor-pointer rounded-full border-[#d6c7b0]"
+          className="cursor-pointer rounded-full border-slate-200"
         >
           <a href="#workflow">View workflow</a>
         </Button>
@@ -183,7 +183,7 @@ const Recruiters = () => (
         {workflow.map((step, index) => (
           <div
             key={step.title}
-            className="space-y-3 rounded-2xl border border-[#efe6d8] bg-[#fbfaf8] p-5"
+            className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/50 p-5"
           >
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Step {index + 1}
@@ -197,7 +197,7 @@ const Recruiters = () => (
       </div>
     </div>
 
-    <div className="rounded-3xl border border-[#1f2933] bg-[#1f2933] px-6 py-8 text-white sm:px-8">
+    <div className="rounded-3xl border border-slate-900 bg-slate-900 px-6 py-8 text-white sm:px-8">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/70">
@@ -212,7 +212,7 @@ const Recruiters = () => (
         </div>
         <Button
           asChild
-          className="cursor-pointer rounded-full border border-white bg-white text-[#1f2933] hover:bg-white/90"
+          className="cursor-pointer rounded-full border border-white bg-white text-slate-900 hover:bg-white/90"
         >
           <Link to="/signup">Get started</Link>
         </Button>

@@ -14,14 +14,14 @@ const MobileMenuAuth = ({
         <Link
           to="/login"
           onClick={onClose}
-          className="flex-1 rounded-md border border-[#d6c7b0] px-4 py-2 text-center text-sm font-semibold text-slate-800 transition hover:bg-[#f1ede6]"
+          className="flex-1 rounded-md border border-slate-200 px-4 py-2 text-center text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
         >
           Login
         </Link>
         <Link
           to="/signup"
           onClick={onClose}
-          className="flex-1 rounded-md bg-[#1f2933] px-4 py-2 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-[#18202e]"
+          className="flex-1 rounded-md bg-slate-900 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
         >
           Sign Up
         </Link>
@@ -31,7 +31,7 @@ const MobileMenuAuth = ({
 
   return (
     <div className="space-y-3">
-      <div className="rounded-md border border-[#e2d6c5] bg-white px-3 py-2">
+      <div className="rounded-md border border-slate-200 bg-white px-3 py-2">
         {isLoading ? (
           <Skeleton className="h-5 w-40" />
         ) : (
@@ -46,7 +46,7 @@ const MobileMenuAuth = ({
       <Link
         to="/profile"
         onClick={onClose}
-        className="block rounded-md border border-[#d6c7b0] px-4 py-2 text-center text-sm font-semibold text-slate-800 transition hover:bg-[#f1ede6]"
+        className="block rounded-md border border-slate-200 px-4 py-2 text-center text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
       >
         Profile
       </Link>
@@ -56,7 +56,7 @@ const MobileMenuAuth = ({
           onLogout?.();
           onClose();
         }}
-        className="w-full rounded-md bg-[#1f2933] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#18202e]"
+        className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
       >
         Log out
       </button>

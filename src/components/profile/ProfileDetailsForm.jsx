@@ -66,9 +66,9 @@ const ProfileDetailsForm = ({
   };
 
   return (
-    <div className="mx-auto w-full max-w-3xl rounded-3xl border border-[#e3d7c5] bg-white/90 p-6 shadow-2xl backdrop-blur sm:p-10">
+    <div className="mx-auto w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
       <div className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
           {introLabel}
         </p>
         <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
@@ -94,7 +94,7 @@ const ProfileDetailsForm = ({
               value={formValues.name}
               onChange={handleChange}
               placeholder="Alex Johnson"
-              className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-950 shadow-xs transition focus:border-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10"
               minLength={2}
               maxLength={60}
               required
@@ -115,7 +115,7 @@ const ProfileDetailsForm = ({
               value={formValues.headline}
               onChange={handleChange}
               placeholder="Frontend Engineer"
-              className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-955 shadow-xs transition focus:border-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10"
               maxLength={80}
               required
             />
@@ -138,7 +138,7 @@ const ProfileDetailsForm = ({
               value={formValues.location}
               onChange={handleChange}
               placeholder="Remote / Bengaluru"
-              className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-955 shadow-xs transition focus:border-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10"
               maxLength={60}
               required
             />
@@ -183,7 +183,7 @@ const ProfileDetailsForm = ({
             value={formValues.bio}
             onChange={handleChange}
             placeholder="Share a quick summary of what you build and what you want next."
-            className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
+            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-955 shadow-xs transition focus:border-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10"
             maxLength={400}
             required
           />
@@ -204,7 +204,7 @@ const ProfileDetailsForm = ({
             value={formValues.skills}
             onChange={handleChange}
             placeholder="React, TypeScript, Node.js"
-            className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
+            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-955 shadow-xs transition focus:border-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10"
             maxLength={120}
             required
           />
@@ -229,7 +229,7 @@ const ProfileDetailsForm = ({
               value={formValues.github}
               onChange={handleChange}
               placeholder="https://github.com/username"
-              className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-955 shadow-xs transition focus:border-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10"
               maxLength={160}
             />
           </div>
@@ -247,7 +247,7 @@ const ProfileDetailsForm = ({
               value={formValues.linkedin}
               onChange={handleChange}
               placeholder="https://linkedin.com/in/you"
-              className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-955 shadow-xs transition focus:border-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10"
               maxLength={160}
             />
           </div>
@@ -267,7 +267,7 @@ const ProfileDetailsForm = ({
             value={formValues.resume}
             onChange={handleChange}
             placeholder="https://drive.google.com/..."
-            className="w-full rounded-lg border border-[#d8cab8] px-3 py-2 text-slate-900 shadow-sm transition focus:border-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0f172a]/20"
+            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-slate-955 shadow-xs transition focus:border-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10"
             maxLength={160}
           />
           <p className="text-xs text-slate-500">
@@ -281,14 +281,14 @@ const ProfileDetailsForm = ({
           </div>
         )}
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-slate-100 pt-6">
           <p className="text-xs text-slate-500">{footerNote}</p>
           <div className="flex flex-col gap-3 sm:flex-row">
             {onCancel && (
               <button
                 type="button"
                 onClick={onCancel}
-                className="inline-flex items-center justify-center rounded-full border border-[#d6c7b0] px-6 py-3 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-[#0f172a] hover:text-slate-900"
+                className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 hover:border-slate-300"
               >
                 {cancelLabel}
               </button>
@@ -296,7 +296,7 @@ const ProfileDetailsForm = ({
             <button
               type="submit"
               disabled={isLoading}
-              className="inline-flex items-center justify-center rounded-full bg-[#0f172a] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/10 transition hover:-translate-y-0.5 hover:bg-[#0c1323] hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70"
+              className="inline-flex items-center justify-center rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isLoading ? (
                 <span className="inline-flex items-center gap-2">
@@ -312,7 +312,7 @@ const ProfileDetailsForm = ({
                 type="button"
                 onClick={() => onApplyAndSave(formValues)}
                 disabled={isLoading}
-                className="inline-flex items-center justify-center rounded-full bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-green-900/10 transition hover:-translate-y-0.5 hover:bg-green-700 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70"
+                className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-emerald-750 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {isLoading ? (
                   <span className="inline-flex items-center gap-2">

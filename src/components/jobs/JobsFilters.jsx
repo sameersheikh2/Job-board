@@ -31,9 +31,9 @@ const JobsFilters = () => {
 
   return (
     <div className="mt-6 lg:sticky lg:top-5 lg:z-20 lg:mt-8">
-      <div className="rounded-3xl border border-[#e6dccd] bg-white/90 p-4 shadow-sm backdrop-blur sm:p-5 lg:rounded-2xl lg:p-4">
+      <div className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-xs backdrop-blur sm:p-5 lg:p-4">
         <div className="hidden items-center justify-between lg:flex">
-          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-slate-500">
+          <p className="text-[0.65rem] font-semibold uppercase tracking-wider text-slate-500">
             Filters
           </p>
           <p className="text-xs text-slate-500">Refine results quickly.</p>
@@ -53,13 +53,13 @@ const JobsFilters = () => {
               <button
                 type="button"
                 aria-label="Run search"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#0f172a] text-white shadow-sm transition hover:bg-[#0c1323]"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 text-white shadow-xs transition hover:bg-slate-800"
               >
                 <Search className="h-4 w-4" />
               </button>
             </div>
             <details
-              className="group rounded-2xl border border-[#e6dccd] bg-white/95 p-3 shadow-sm"
+              className="group rounded-xl border border-slate-200 bg-white/95 p-3 shadow-xs"
               open={isOpen}
               onToggle={(event) => setIsOpen(event.currentTarget.open)}
             >
@@ -68,7 +68,7 @@ const JobsFilters = () => {
                   <SlidersHorizontal className="h-4 w-4" />
                   Filters
                 </span>
-                <span className="text-[0.65rem] uppercase tracking-[0.2em] text-slate-400">
+                <span className="text-[0.65rem] uppercase tracking-wider text-slate-400">
                   Tap to expand
                 </span>
               </summary>
@@ -145,17 +145,17 @@ const JobsFilters = () => {
                   </Select>
                 </FormField>
               </div>
-              <div className="mt-4 flex items-center justify-end gap-3 border-t border-[#efe6d8] pt-4">
+              <div className="mt-4 flex items-center justify-end gap-3 border-t border-slate-100 pt-4">
                 <button
                   type="button"
-                  className="rounded-full border border-[#d8cab8] px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-[#f3ebe0]"
+                  className="rounded-lg border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
                   Reset
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="rounded-full bg-[#0f172a] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
+                  className="rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-slate-800"
                 >
                   Done
                 </button>
@@ -177,7 +177,7 @@ const JobsFilters = () => {
               <button
                 type="button"
                 aria-label="Run search"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#0f172a] text-white shadow-sm transition hover:bg-[#0c1323]"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 text-white shadow-xs transition hover:bg-slate-800"
               >
                 <Search className="h-4 w-4" />
               </button>

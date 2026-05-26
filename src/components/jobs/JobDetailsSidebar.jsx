@@ -27,7 +27,7 @@ const JobDetailsSidebar = ({
 
   return (
     <aside className="space-y-4">
-      <div className="hidden rounded-3xl border border-[#e6dccd] bg-white p-6 shadow-sm lg:block">
+      <div className="hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:block">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
           Apply
         </p>
@@ -41,21 +41,21 @@ const JobDetailsSidebar = ({
           {isDisabled ? (
             <button
               disabled
-              className="inline-flex w-full items-center justify-center rounded-full bg-slate-300 px-4 py-2 text-sm font-semibold text-slate-500 cursor-not-allowed"
+              className="inline-flex w-full items-center justify-center rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-400 cursor-not-allowed border border-slate-200"
             >
               {applyCta.label}
             </button>
           ) : onApply ? (
             <button
               onClick={onApply}
-              className="inline-flex w-full items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
+              className="inline-flex w-full items-center justify-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
             >
               {applyCta.label}
             </button>
           ) : (
             <Link
               to={applyCta.to}
-              className="inline-flex w-full items-center justify-center rounded-full bg-[#0f172a] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0c1323]"
+              className="inline-flex w-full items-center justify-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
             >
               {applyCta.label}
             </Link>
@@ -63,7 +63,7 @@ const JobDetailsSidebar = ({
           {!isRecruiter && (
             <Link
               to="/jobs"
-              className="inline-flex w-full items-center justify-center rounded-full border border-[#cbb89f] px-4 py-2 text-sm font-semibold text-[#0f172a] transition hover:bg-[#f2e8d8]"
+              className="inline-flex w-full items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
             >
               Save for later
             </Link>
@@ -71,7 +71,7 @@ const JobDetailsSidebar = ({
         </div>
       </div>
 
-      <div className="rounded-3xl border border-[#e6dccd] bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h3 className="text-sm font-semibold text-slate-900">Job summary</h3>
         <div className="mt-4 space-y-3 text-sm text-slate-600">
           <div className="flex items-center gap-2">

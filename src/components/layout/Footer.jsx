@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-[#c0b196] bg-[#0f172a] text-slate-100">
+    <footer className="border-t border-slate-800 bg-slate-950 text-slate-100">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div>
           <div className="text-lg font-semibold text-white">DevHubIO</div>
